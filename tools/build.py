@@ -24,14 +24,12 @@ SITE = {
     "state": "GA",
     "zip": "30060",
     # ---- SINGLE SOURCE OF TRUTH FOR HOURS -------------------------------
-    # TODO: confirm these against the Google listing, then rerun the build.
-    # "close" may exceed 24:00 to mean "closes after midnight" (26:00 = 2 AM).
+    # "close" may exceed 24:00 to mean "closes after midnight" (25:00 = 1 AM).
     # days: 0 = Sunday ... 6 = Saturday
     "hours_data": [
-        {"label": "Monday \u2013 Thursday", "days": [1, 2, 3, 4], "open": "16:00", "close": "24:00"},
-        {"label": "Friday",                  "days": [5],          "open": "16:00", "close": "26:00"},
-        {"label": "Saturday",                "days": [6],          "open": "14:00", "close": "26:00"},
-        {"label": "Sunday",                  "days": [0],          "open": "14:00", "close": "24:00"},
+        {"label": "Monday \u2013 Thursday", "days": [1, 2, 3, 4], "open": "17:30", "close": "25:00"},
+        {"label": "Friday \u2013 Saturday",  "days": [5, 6],       "open": "14:30", "close": "27:00"},
+        {"label": "Sunday",                  "days": [0],          "open": "14:30", "close": "25:00"},
     ],
     "age": "21+ with valid ID",
 
