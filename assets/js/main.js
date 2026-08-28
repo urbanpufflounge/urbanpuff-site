@@ -185,7 +185,17 @@
     var label = btn ? btn.textContent : '';
     if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-    var endpoint = form.getAttribute('data-endpoint') || form.action;
+    // The destination lives in assets/js/forms.js and is handed over only now,
+    // so it never sits in the markup or the rendered DOM.
+    var endpoint = (typeof window.UP_FORM_TARGET === 'function' && window.UP_FORM_TARGET(true))
+      || form.getAttribute('data-endpoint') || form.action;
+    if (!endpoint) {
+      showStatus('err', 'That didn\u2019t go through',
+        'We couldn\u2019t send your message. Please try again in a moment, or reach us on ' +
+        '<a href="https://www.instagram.com/urbanpuff.562/" target="_blank" rel="noopener">Instagram</a>.');
+      if (btn) { btn.disabled = false; btn.textContent = label; }
+      return;
+    }
 
     fetch(endpoint, {
       method: 'POST',
@@ -205,16 +215,16 @@
         } else if (pending) {
           showStatus('info', 'Almost there',
             'This form is awaiting a one-time confirmation on our side. Your ' +
-            'message hasn’t reached us yet — please email us directly at ' +
-            '<a href="mailto:urbanpuff1@gmail.com">urbanpuff1@gmail.com</a> in the meantime.');
+            'message hasn’t reached us yet — please reach out on ' +
+            '<a href="https://www.instagram.com/urbanpuff.562/" target="_blank" rel="noopener">Instagram</a> in the meantime.');
         } else {
           throw new Error('unexpected response');
         }
       })
       .catch(function () {
         showStatus('err', 'That didn’t go through',
-          'Something went wrong sending your message. Please try again, or ' +
-          'email us directly at <a href="mailto:urbanpuff1@gmail.com">urbanpuff1@gmail.com</a>.');
+          'Something went wrong sending your message. Please try again in a ' +
+          'moment, or reach us on <a href="https://www.instagram.com/urbanpuff.562/" target="_blank" rel="noopener">Instagram</a>.');
       })
       .then(function () {
         if (btn) { btn.disabled = false; btn.textContent = label; }

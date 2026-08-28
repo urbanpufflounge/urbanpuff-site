@@ -107,7 +107,7 @@ forwards submissions to an inbox. No account, no API key, no server.
 
 1. Once the site is live at `https://urbanpufflounge.com`, open the **Contact**
    page and send yourself a real test message.
-2. FormSubmit emails **urbanpuff1@gmail.com** a one-time activation link.
+2. FormSubmit emails **your inbox** a one-time activation link.
    **Click it.** (Check spam if it doesn't show up within a minute.)
 3. Send a second test message. It should now land in the inbox, formatted as a
    table with First Name / Last Name / Email / Phone / Message, and the browser
@@ -122,7 +122,7 @@ their site. Swap the form action in `contact.html`:
 
 ```html
 <!-- before -->
-<form action="https://formsubmit.co/urbanpuff1@gmail.com" method="POST" data-validate>
+<form action="https://formsubmit.co/your inbox" method="POST" data-validate>
 <!-- after -->
 <form action="https://formsubmit.co/xxxxxxxxxxxxx" method="POST" data-validate>
 ```

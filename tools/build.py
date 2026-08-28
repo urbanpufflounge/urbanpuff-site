@@ -17,7 +17,19 @@ SITE = {
     "full": "Urban Puff Lounge and Bar",
     "tagline": "Hookah • Mocktails • Food • Good Vibes",
     "domain": "https://urbanpufflounge.com",
-    "email": "urbanpuff1@gmail.com",
+    # The inbox forms deliver to, stored base64 so the address appears in plain
+    # text nowhere in this repository. NEVER rendered into the pages.
+    # Decode/encode:  python3 -c "import base64;print(base64.b64decode('...').decode())"
+    "email_b64": "dXJiYW5wdWZmMUBnbWFpbC5jb20=",
+
+    # What the form actually posts to. Two ways to fill this in:
+    #   "hash:<string>"  a FormSubmit hashed endpoint (get it from the activation
+    #                    email after your first live submission) — the address is
+    #                    then completely absent from the site. BEST.
+    #   ""               leave empty and the address is base64-encoded into
+    #                    assets/js/forms.js instead. Keeps mail harvesters and
+    #                    search engines off it, but it is obfuscation, not removal.
+    "form_token": "",
     "instagram": "https://www.instagram.com/urbanpuff.562/",
     "street": "562 Wylie Rd SE, Suite 3",
     "city": "Marietta",
@@ -151,7 +163,7 @@ def business_schema():
   "url": "{SITE['domain']}/",
   "image": ["{SITE['domain']}/assets/img/og-image.jpg"],
   "logo": "{SITE['domain']}/assets/img/logo.svg",
-  "email": "{SITE['email']}",{phone}
+{phone}
   "priceRange": "$$",
   "currenciesAccepted": "USD",
   "paymentAccepted": "Cash, Credit Card, Debit Card, Mobile Payment",
@@ -336,7 +348,7 @@ def footer():
         <p style="color:var(--text-faint);font-size:.9rem;max-width:30ch">{SITE['tagline']}</p>
         <div class="socials" style="margin-top:1.2rem">
           <a href="{SITE['instagram']}" target="_blank" rel="noopener" aria-label="Instagram">{IG_SVG}</a>
-          <a href="mailto:{SITE['email']}" aria-label="Email us">{MAIL_SVG}</a>
+          <a href="contact.html" aria-label="Send us a message">{MAIL_SVG}</a>
           <a href="{SITE['maps']}" target="_blank" rel="noopener" aria-label="Directions">{MAP_SVG}</a>
         </div>
       </div>
@@ -364,12 +376,13 @@ def footer():
     </div>
     <div class="footer-bottom">
       <span>&copy; <span data-year>{datetime.date.today().year}</span> {SITE['full']}. All rights reserved.</span>
-      <span>Marietta, Georgia &middot; <a href="mailto:{SITE['email']}">{SITE['email']}</a></span>
+      <span>Marietta, Georgia &middot; <a href="contact.html">Send us a message</a></span>
     </div>
   </div>
 </footer>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/hours.js"></script>
+<script src="assets/js/forms.js"></script>
 </body>
 </html>'''
 
@@ -853,7 +866,7 @@ def build_visit():
         <div class="card">
           <h2 class="panel-head">Urban Puff Lounge and Bar</h2>
           <p>{SITE['street']}<br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><br>
-          <a href="mailto:{SITE['email']}">{SITE['email']}</a><br>
+          <a href="contact.html">Send us a message</a><br>
           <a href="{SITE['instagram']}" target="_blank" rel="noopener">@urbanpuff.562</a></p>
         </div>
       </div>
@@ -892,9 +905,9 @@ def build_reserve():
 
           <div class="form-status" data-form-status aria-live="polite"></div>
 
-          <form class="form" data-validate
-                data-endpoint="https://formsubmit.co/ajax/{SITE['email']}"
-                action="https://formsubmit.co/{SITE['email']}" method="POST">
+          <!-- Endpoint set at runtime by assets/js/forms.js \u2014 see the note on the
+               contact page and SITE["form_token"] in tools/build.py. -->
+          <form class="form" data-validate data-form method="POST">
             <input type="hidden" name="_subject" value="TABLE REQUEST from urbanpufflounge.com">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -974,6 +987,7 @@ def build_reserve():
             <div class="btn-row">
               <button class="btn btn--solid" type="submit">Request this table</button>
             </div>
+            <noscript><p class="form__note">This form needs JavaScript. Reach us on <a href="{SITE['instagram']}" target="_blank" rel="noopener">Instagram</a> instead.</p></noscript>
           </form>
         </div>
       </div>
@@ -1019,12 +1033,10 @@ def build_contact():
                data-endpoint is the AJAX endpoint: assets/js/main.js posts there in the
                background, so the visitor stays on this page and sees an inline
                confirmation instead of being bounced to a third-party screen.
-               `action` and `_next` are the fallback for visitors with JavaScript off.
-               The FIRST submission after going live triggers a one-time activation
-               email to {SITE['email']}; click the link in it and the form is live. -->
-          <form class="form" data-validate
-                data-endpoint="https://formsubmit.co/ajax/{SITE['email']}"
-                action="https://formsubmit.co/{SITE['email']}" method="POST">
+               `action` and `_next` are the fallback for visitors with JavaScript off. -->
+          <!-- Endpoint set at runtime by assets/js/forms.js \u2014 see the note on the
+               contact page and SITE["form_token"] in tools/build.py. -->
+          <form class="form" data-validate data-form method="POST">
             <input type="hidden" name="_subject" value="New message from urbanpufflounge.com">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -1068,6 +1080,7 @@ def build_contact():
             <div class="btn-row">
               <button class="btn btn--solid" type="submit">Send message</button>
             </div>
+            <noscript><p class="form__note">This form needs JavaScript. Reach us on <a href="{SITE['instagram']}" target="_blank" rel="noopener">Instagram</a> instead.</p></noscript>
           </form>
         </div>
       </div>
@@ -1075,7 +1088,7 @@ def build_contact():
       <div class="reveal">
         <p class="eyebrow">Other ways to reach us</p>
         <ul class="info-list">
-          <li><span class="info-list__label">Email</span><span class="info-list__value"><a href="mailto:{SITE['email']}">{SITE['email']}</a></span></li>
+          <li><span class="info-list__label">Message</span><span class="info-list__value">Use the form \u2014 it lands in our inbox straight away and we reply the same day.</span></li>
           <li><span class="info-list__label">Instagram</span><span class="info-list__value"><a href="{SITE['instagram']}" target="_blank" rel="noopener">@urbanpuff.562</a> — fastest for what's on tonight</span></li>
           <li><span class="info-list__label">Address</span><span class="info-list__value"><strong>{SITE['street']}</strong><br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><a href="{SITE['maps']}" target="_blank" rel="noopener">Get directions &rarr;</a></span></li>
           <li><span class="info-list__label">Groups</span><span class="info-list__value">Tell us the date, the headcount and the vibe — we'll hold the right table.</span></li>
@@ -1160,6 +1173,45 @@ PAGES = [
 ]
 
 
+def build_forms_js():
+    """
+    Writes assets/js/forms.js. The delivery address is never placed in any HTML
+    file; this script attaches the endpoint at runtime.
+    """
+    tok = SITE["form_token"]
+    if tok.startswith("hash:"):
+        value, hashed = tok[5:], "true"
+        note = ("A FormSubmit hashed endpoint. The inbox address does not appear\n"
+                "   anywhere in this site.")
+    else:
+        value = SITE["email_b64"]
+        hashed = "false"
+        note = ("The address, base64-encoded. This keeps it out of the page source\n"
+                "   and away from mail harvesters and crawlers, but anyone who reads\n"
+                "   this file can decode it. To remove it properly, set\n"
+                '   SITE["form_token"] = "hash:<your FormSubmit string>" and rebuild.')
+
+    js = '''/* Urban Puff — form delivery endpoint.
+   %s
+   The endpoint is never written into the HTML or into the DOM: it is held in a
+   closure here and handed to the submit handler only at the moment of sending,
+   so nothing a crawler renders or a scraper parses contains the address.
+   Set SITE["form_token"] in tools/build.py; this file is generated. */
+(function () {
+  'use strict';
+  var T = '%s';
+  var HASHED = %s;
+  var to = HASHED ? T : (window.atob ? window.atob(T) : '');
+  window.UP_FORM_TARGET = function (ajax) {
+    if (!to) return '';
+    return 'https://formsubmit.co/' + (ajax ? 'ajax/' : '') + to;
+  };
+})();
+''' % (note, value, hashed)
+    open(os.path.join(ROOT, "assets", "js", "forms.js"), "w").write(js)
+    print("wrote assets/js/forms.js (%s)" % ("hashed endpoint" if hashed == "true" else "encoded address"))
+
+
 def build_sitemap():
     today = datetime.date.today().isoformat()
     weights = {
@@ -1212,5 +1264,6 @@ if __name__ == "__main__":
         if filename == "menu.html":
             extra += menu_schema()
         page(filename, title, desc, fn(), extra)
+    build_forms_js()
     build_sitemap()
     print("\nDone.")

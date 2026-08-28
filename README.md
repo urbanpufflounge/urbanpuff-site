@@ -9,7 +9,7 @@ menu.html         Flavour board + food menu (categories, no prices)
 gallery.html      Photo gallery (placeholders — drop real photos in)
 visit.html        Address, hours, parking, FAQ
 reserve.html      Table request form (the main conversion page)
-contact.html      General contact form -> urbanpuff1@gmail.com
+contact.html      General contact form -> your inbox
 thank-you.html    Shown after the form is submitted
 404.html          Not-found page
 CNAME             Custom domain for GitHub Pages
@@ -109,6 +109,28 @@ visit page, so Google can show the answers directly in search results.
 Fixed to the bottom of the screen under 760px: Message (or Call), Reserve,
 Directions. The moment you set `SITE["phone"]`, the first button becomes a real
 tap-to-call and the number also appears in the Google schema.
+
+## Hiding the inbox address
+
+The delivery address is **not** in any HTML file, not in the rendered DOM, and
+not in any visible text — there are no `mailto:` links anywhere on the site.
+`assets/js/forms.js` holds it in a closure and hands it to the submit handler
+only at the moment of sending.
+
+By default that file carries the address base64-encoded. That defeats mail
+harvesters and keeps it out of anything a search engine indexes, but it is
+obfuscation: anyone who opens the file can decode it.
+
+**To remove it properly**, use a FormSubmit hashed endpoint. After your first
+live submission, the activation email (and formsubmit.co) gives you a random
+string. Then in `tools/build.py`:
+
+```python
+"form_token": "hash:xxxxxxxxxxxxxxxx",
+```
+
+Rebuild, and the address exists nowhere in the repo except that one config line
+— which you can also blank out, since the hash is all the forms need.
 
 ## Contact form
 
