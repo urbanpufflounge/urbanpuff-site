@@ -110,6 +110,18 @@ Fixed to the bottom of the screen under 760px: Message (or Call), Reserve,
 Directions. The moment you set `SITE["phone"]`, the first button becomes a real
 tap-to-call and the number also appears in the Google schema.
 
+## Phone and Google listing
+
+`SITE["phone"]` / `SITE["phone_intl"]` drive the tap-to-call links in the header
+area, the Find Us block, the contact and visit pages, the footer, the sticky
+mobile bar and the `telephone` field in the schema. Change them in one place.
+
+`SITE["maps_share"]` is the venue's own Google Maps listing — every "Get
+directions" link and the schema `hasMap` point there. The embedded map iframe
+still uses an address query, because short links cannot be embedded.
+
+Coordinates in `SITE["lat"]` / `SITE["lon"]` are taken from that listing.
+
 ## The inbox address is not in this repository
 
 The forms post to a FormSubmit **"invisible email"** endpoint — a random string

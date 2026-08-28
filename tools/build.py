@@ -46,9 +46,13 @@ SITE = {
     ],
     "age": "21+ with valid ID",
 
-    # Approximate rooftop coordinates for 562 Wylie Rd SE (US Census geocoder).
-    "lat": "33.938338",
-    "lon": "-84.511495",
+    # Exact coordinates from the Google Maps listing.
+    "lat": "33.9381686",
+    "lon": "-84.511845",
+
+    # The venue's own Google Maps listing.
+    "maps_share": "https://maps.app.goo.gl/qtieLH7uMNx3AroJ8",
+    "maps_cid": "https://maps.google.com/?cid=3518202901293435740",
 
     # Places we genuinely serve, used in the local-relevance copy and schema.
     "area_served": ["Marietta", "Kennesaw", "Smyrna", "Austell", "Powder Springs",
@@ -57,7 +61,8 @@ SITE = {
     # Leave blank until you have a public number. Fill it in and the call
     # buttons, the sticky mobile bar, the footer and the Google schema all
     # light up automatically.
-    "phone": "",
+    "phone": "(404) 706-5717",
+    "phone_intl": "+14047065717",
 
     # What's on this week. Edit freely — this is the bit worth keeping fresh.
     "specials": [
@@ -122,12 +127,17 @@ SITE["hours_schema"] = [
     for b in SITE["hours_data"]
 ]
 SITE["place_id"] = ""   # fill in to enable live Google hours (see assets/js/hours.js)
-SITE["phone_tel"] = "".join(c for c in SITE["phone"] if c.isdigit() or c == "+")
-SITE["has_phone"] = bool(SITE["phone_tel"])
+SITE["phone_tel"] = SITE.get("phone_intl") or "".join(
+    c for c in SITE["phone"] if c.isdigit() or c == "+")
+SITE["has_phone"] = bool(SITE["phone"])
 
 SITE["address_one_line"] = "{street}, {city}, {state} {zip}".format(**SITE)
-SITE["maps"] = "https://www.google.com/maps/search/?api=1&query=" + \
-    SITE["address_one_line"].replace(" ", "+").replace(",", "%2C")
+# Directions / listing links go to the venue's own Google Maps place.
+SITE["maps"] = SITE["maps_share"]
+# The iframe still needs a query URL — short links can't be embedded.
+SITE["maps_embed"] = ("https://www.google.com/maps?q="
+                      + SITE["address_one_line"].replace(" ", "%20").replace(",", "%2C")
+                      + "&output=embed")
 
 NAV = [
     ("index.html", "Home"),
@@ -151,7 +161,7 @@ def business_schema():
         for b in SITE["hours_data"]
     )
     areas = ",".join('{"@type":"City","name":"%s"}' % a for a in SITE["area_served"])
-    phone = ('\n  "telephone": "%s",' % SITE["phone"]) if SITE["has_phone"] else ""
+    phone = ('\n  "telephone": "%s",' % SITE["phone_tel"]) if SITE["has_phone"] else ""
     return f'''
 <script type="application/ld+json">
 {{
@@ -356,6 +366,7 @@ def footer():
       <div>
         <h2 class="footer-head">Visit</h2>
         <p>{SITE['street']}<br>{SITE['city']}, {SITE['state']} {SITE['zip']}</p>
+        <p><a href="tel:{SITE['phone_tel']}">{SITE['phone']}</a></p>
         <p><a href="{SITE['maps']}" target="_blank" rel="noopener">Get directions &rarr;</a></p>
         <p style="font-size:.82rem;color:var(--text-faint);margin-top:.8rem">{SITE['age']}</p>
       </div>
@@ -377,7 +388,7 @@ def footer():
     </div>
     <div class="footer-bottom">
       <span>&copy; <span data-year>{datetime.date.today().year}</span> {SITE['full']}. All rights reserved.</span>
-      <span>Marietta, Georgia &middot; <a href="contact.html">Send us a message</a></span>
+      <span>Marietta, Georgia &middot; <a href="tel:{SITE['phone_tel']}">{SITE['phone']}</a></span>
     </div>
   </div>
 </footer>
@@ -627,12 +638,12 @@ def build_home():
         <p style="font-size:.84rem;color:var(--text-faint)">%s. Follow along on <a href="%s" target="_blank" rel="noopener">Instagram</a> for what\u2019s on tonight.</p>
         <div class="btn-row" style="margin-top:1.6rem">
           <a class="btn btn--solid" href="%s" target="_blank" rel="noopener">Get directions</a>
-          <a class="btn btn--ghost" href="contact.html">Book a table</a>
+          %s
         </div>
       </div>
       <div class="reveal map-frame">
         <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=562%%20Wylie%%20Rd%%20SE%%20Suite%%203%%2C%%20Marietta%%2C%%20GA%%2030060&output=embed"></iframe>
+          src="%s"></iframe>
       </div>
     </div>
   </div>
@@ -657,6 +668,10 @@ def build_home():
         SITE["age"],
         SITE["instagram"],
         SITE["maps"],
+        ('<a class="btn btn--ghost" href="tel:%s">Call %s</a>'
+         % (SITE["phone_tel"], SITE["phone"])) if SITE["has_phone"]
+        else '<a class="btn btn--ghost" href="reserve.html">Reserve a table</a>',
+        SITE["maps_embed"],
     )
 
 
@@ -862,11 +877,12 @@ def build_visit():
       <div class="reveal">
         <div class="map-frame" style="margin-bottom:1.6rem">
           <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=562%20Wylie%20Rd%20SE%20Suite%203%2C%20Marietta%2C%20GA%2030060&output=embed"></iframe>
+            src="{SITE['maps_embed']}"></iframe>
         </div>
         <div class="card">
           <h2 class="panel-head">Urban Puff Lounge and Bar</h2>
           <p>{SITE['street']}<br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><br>
+          <a href="tel:{SITE['phone_tel']}">{SITE['phone']}</a><br>
           <a href="contact.html">Send us a message</a><br>
           <a href="{SITE['instagram']}" target="_blank" rel="noopener">@urbanpuff.562</a></p>
         </div>
@@ -902,7 +918,7 @@ def build_reserve():
       <div class="reveal">
         <div class="form-panel">
           <h2 class="panel-head">Request a table</h2>
-          <p class="form__note" style="margin-bottom:1.8rem">We\u2019ll confirm by text or call, usually within the hour. Nothing is charged and nothing is locked in until we come back to you.</p>
+          <p class="form__note" style="margin-bottom:1.8rem">We\u2019ll confirm by text or call, usually within the hour. Nothing is charged and nothing is locked in until we come back to you. Coming tonight? <a href="tel:{SITE['phone_tel']}">Call {SITE['phone']}</a> instead.</p>
 
           <div class="form-status" data-form-status aria-live="polite"></div>
 
@@ -1005,7 +1021,7 @@ def build_reserve():
         </ul>
         <div class="map-frame" style="margin-top:2rem">
           <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=562%%20Wylie%%20Rd%%20SE%%20Suite%%203%%2C%%20Marietta%%2C%%20GA%%2030060&output=embed"></iframe>
+            src="{SITE['maps_embed']}"></iframe>
         </div>
       </div>
     </div>
@@ -1087,6 +1103,7 @@ def build_contact():
       <div class="reveal">
         <p class="eyebrow">Other ways to reach us</p>
         <ul class="info-list">
+          <li><span class="info-list__label">Phone</span><span class="info-list__value"><a href="tel:{SITE['phone_tel']}"><strong>{SITE['phone']}</strong></a><br>Quickest way to reach the floor \u2014 call or text.</span></li>
           <li><span class="info-list__label">Message</span><span class="info-list__value">Use the form \u2014 it lands in our inbox straight away and we reply the same day.</span></li>
           <li><span class="info-list__label">Instagram</span><span class="info-list__value"><a href="{SITE['instagram']}" target="_blank" rel="noopener">@urbanpuff.562</a> — fastest for what's on tonight</span></li>
           <li><span class="info-list__label">Address</span><span class="info-list__value"><strong>{SITE['street']}</strong><br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><a href="{SITE['maps']}" target="_blank" rel="noopener">Get directions &rarr;</a></span></li>
@@ -1094,7 +1111,7 @@ def build_contact():
         </ul>
         <div class="map-frame" style="margin-top:2rem">
           <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=562%20Wylie%20Rd%20SE%20Suite%203%2C%20Marietta%2C%20GA%2030060&output=embed"></iframe>
+            src="{SITE['maps_embed']}"></iframe>
         </div>
       </div>
     </div>

@@ -612,3 +612,4 @@ ul{margin:0;padding:0;list-style:none}
 
 .panel-head{font-size:clamp(1.3rem,2.2vw,1.65rem);margin-bottom:.3em}
 .hero h1{font-size:clamp(2.4rem,5vw,4rem);max-width:16ch}
+.info-list__value a strong{color:inherit;font-weight:400;font-size:1.05rem;letter-spacing:.02em}
