@@ -110,27 +110,28 @@ Fixed to the bottom of the screen under 760px: Message (or Call), Reserve,
 Directions. The moment you set `SITE["phone"]`, the first button becomes a real
 tap-to-call and the number also appears in the Google schema.
 
-## Hiding the inbox address
+## The inbox address is not in this repository
 
-The delivery address is **not** in any HTML file, not in the rendered DOM, and
-not in any visible text — there are no `mailto:` links anywhere on the site.
-`assets/js/forms.js` holds it in a closure and hands it to the submit handler
-only at the moment of sending.
+The forms post to a FormSubmit **"invisible email"** endpoint — a random string
+that resolves to the inbox on FormSubmit's side:
 
-By default that file carries the address base64-encoded. That defeats mail
-harvesters and keeps it out of anything a search engine indexes, but it is
-obfuscation: anyone who opens the file can decode it.
-
-**To remove it properly**, use a FormSubmit hashed endpoint. After your first
-live submission, the activation email (and formsubmit.co) gives you a random
-string. Then in `tools/build.py`:
-
-```python
-"form_token": "hash:xxxxxxxxxxxxxxxx",
+```
+https://formsubmit.co/107255ed9e810f4577564bb36d288488
 ```
 
-Rebuild, and the address exists nowhere in the repo except that one config line
-— which you can also blank out, since the hash is all the forms need.
+So there is no address in any page, in the rendered DOM, in the visible text, in
+the schema, or anywhere in this repo. There are no `mailto:` links on the site.
+
+To point the forms at a different inbox: activate it at
+[formsubmit.co](https://formsubmit.co), take the random string from the
+confirmation email, and set it in `tools/build.py`:
+
+```python
+"form_token": "hash:<your string>",
+```
+
+Rebuild and both forms follow it. The string is not a secret — it only lets
+someone send you a message, which is what the form is for.
 
 ## Contact form
 

@@ -17,10 +17,11 @@ SITE = {
     "full": "Urban Puff Lounge and Bar",
     "tagline": "Hookah • Mocktails • Food • Good Vibes",
     "domain": "https://urbanpufflounge.com",
-    # The inbox forms deliver to, stored base64 so the address appears in plain
-    # text nowhere in this repository. NEVER rendered into the pages.
-    # Decode/encode:  python3 -c "import base64;print(base64.b64decode('...').decode())"
-    "email_b64": "dXJiYW5wdWZmMUBnbWFpbC5jb20=",
+    # No inbox address is stored anywhere in this repository. Forms post to the
+    # FormSubmit "invisible email" endpoint below, which resolves to the inbox on
+    # their side. To point the forms at a different inbox, activate it with
+    # FormSubmit and swap the string in form_token.
+    "email_b64": "",
 
     # What the form actually posts to. Two ways to fill this in:
     #   "hash:<string>"  a FormSubmit hashed endpoint (get it from the activation
@@ -29,7 +30,7 @@ SITE = {
     #   ""               leave empty and the address is base64-encoded into
     #                    assets/js/forms.js instead. Keeps mail harvesters and
     #                    search engines off it, but it is obfuscation, not removal.
-    "form_token": "",
+    "form_token": "hash:107255ed9e810f4577564bb36d288488",
     "instagram": "https://www.instagram.com/urbanpuff.562/",
     "street": "562 Wylie Rd SE, Suite 3",
     "city": "Marietta",
@@ -907,7 +908,7 @@ def build_reserve():
 
           <!-- Endpoint set at runtime by assets/js/forms.js \u2014 see the note on the
                contact page and SITE["form_token"] in tools/build.py. -->
-          <form class="form" data-validate data-form method="POST">
+          <form class="form" data-validate data-form{form_action()} method="POST">
             <input type="hidden" name="_subject" value="TABLE REQUEST from urbanpufflounge.com">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -987,7 +988,6 @@ def build_reserve():
             <div class="btn-row">
               <button class="btn btn--solid" type="submit">Request this table</button>
             </div>
-            <noscript><p class="form__note">This form needs JavaScript. Reach us on <a href="{SITE['instagram']}" target="_blank" rel="noopener">Instagram</a> instead.</p></noscript>
           </form>
         </div>
       </div>
@@ -1036,7 +1036,7 @@ def build_contact():
                `action` and `_next` are the fallback for visitors with JavaScript off. -->
           <!-- Endpoint set at runtime by assets/js/forms.js \u2014 see the note on the
                contact page and SITE["form_token"] in tools/build.py. -->
-          <form class="form" data-validate data-form method="POST">
+          <form class="form" data-validate data-form{form_action()} method="POST">
             <input type="hidden" name="_subject" value="New message from urbanpufflounge.com">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -1080,7 +1080,6 @@ def build_contact():
             <div class="btn-row">
               <button class="btn btn--solid" type="submit">Send message</button>
             </div>
-            <noscript><p class="form__note">This form needs JavaScript. Reach us on <a href="{SITE['instagram']}" target="_blank" rel="noopener">Instagram</a> instead.</p></noscript>
           </form>
         </div>
       </div>
@@ -1171,6 +1170,18 @@ PAGES = [
     ("404.html", f"Page not found | {SITE['full']}",
      "That page doesn't exist. Find the menu, hours and reservations for Urban Puff Lounge and Bar in Marietta, GA.", build_404, ""),
 ]
+
+
+def form_action():
+    """
+    With a FormSubmit hashed endpoint there is no address to hide, so the action
+    can sit in the HTML again and the form keeps working without JavaScript.
+    Without a hash we emit nothing and assets/js/forms.js wires it at runtime.
+    """
+    tok = SITE["form_token"]
+    if tok.startswith("hash:"):
+        return ' action="https://formsubmit.co/%s"' % tok[5:]
+    return ""
 
 
 def build_forms_js():

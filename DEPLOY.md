@@ -115,20 +115,11 @@ forwards submissions to an inbox. No account, no API key, no server.
 4. The sender also gets an automatic acknowledgement — the wording is the
    `_autoresponse` hidden field in `contact.html`, edit it to taste.
 
-### Hiding the email address from scrapers (optional but worth doing)
+### Already done: the inbox address is hidden
 
-After activation, FormSubmit shows you a random string like `xxxxxxxxxxxxx` on
-their site. Swap the form action in `contact.html`:
-
-```html
-<!-- before -->
-<form action="https://formsubmit.co/your inbox" method="POST" data-validate>
-<!-- after -->
-<form action="https://formsubmit.co/xxxxxxxxxxxxx" method="POST" data-validate>
-```
-
-Same behaviour, but the inbox address is no longer sitting in the page source.
-Commit and push, and Pages redeploys in under a minute.
+The forms use FormSubmit's "invisible email" endpoint — a random string that
+resolves to the inbox on their side — so no address appears on the site or in
+the repository. Nothing further to do here.
 
 ### If you'd rather not use FormSubmit
 
