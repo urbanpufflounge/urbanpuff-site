@@ -33,6 +33,14 @@ SITE = {
     ],
     "age": "21+ with valid ID",
 
+    # Approximate rooftop coordinates for 562 Wylie Rd SE (US Census geocoder).
+    "lat": "33.938338",
+    "lon": "-84.511495",
+
+    # Places we genuinely serve, used in the local-relevance copy and schema.
+    "area_served": ["Marietta", "Kennesaw", "Smyrna", "Austell", "Powder Springs",
+                    "Mableton", "Vinings", "Dobbins ARB", "Cobb County", "Atlanta"],
+
     # Leave blank until you have a public number. Fill it in and the call
     # buttons, the sticky mobile bar, the footer and the Google schema all
     # light up automatically.
@@ -85,6 +93,8 @@ def _fmt(hhmm):
 
 
 _SCHEMA_DAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+_SCHEMA_FULL_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday",
+                     "Thursday", "Friday", "Saturday"]
 
 SITE["hours"] = [
     (b["label"], "%s \u2013 %s" % (_fmt(b["open"]), _fmt(b["close"])))
@@ -117,24 +127,39 @@ NAV = [
 #  Shared chrome
 # --------------------------------------------------------------------------- #
 
-def head(page, title, desc, extra_schema=""):
-    canonical = SITE["domain"] + "/" + ("" if page == "index.html" else page)
-    phone_schema = ('\n  "telephone": "%s",' % SITE["phone"]) if SITE["has_phone"] else ""
-    schema = ""
-    if page == "index.html":
-        schema = f'''
+def business_schema():
+    """LocalBusiness / BarOrPub — the block Google reads for the knowledge panel."""
+    spec = ",".join(
+        '''
+    {"@type":"OpeningHoursSpecification","dayOfWeek":[%s],"opens":"%s","closes":"%s"}'''
+        % (",".join('"%s"' % _SCHEMA_FULL_DAYS[d] for d in b["days"]),
+           b["open"],
+           "%02d:%02d" % (int(b["close"].split(":")[0]) % 24, int(b["close"].split(":")[1])))
+        for b in SITE["hours_data"]
+    )
+    areas = ",".join('{"@type":"City","name":"%s"}' % a for a in SITE["area_served"])
+    phone = ('\n  "telephone": "%s",' % SITE["phone"]) if SITE["has_phone"] else ""
+    return f'''
 <script type="application/ld+json">
 {{
   "@context": "https://schema.org",
-  "@type": "BarOrPub",
+  "@type": ["BarOrPub", "Restaurant"],
+  "@id": "{SITE['domain']}/#business",
   "name": "{SITE['full']}",
   "alternateName": "{SITE['name']}",
-  "description": "Hookah lounge and bar in Marietta, Georgia serving premium hookah, tikka and kababs, mains, sides, mocktails and desserts.",
+  "description": "Premium hookah lounge and bar in Marietta, Georgia. Top-shelf shisha and house flavour mixes, tikka and kababs off the grill, mocktails shaken to order, sports on the big screens, free Wi-Fi and comfortable seating. Open late seven nights a week.",
   "url": "{SITE['domain']}/",
-  "image": "{SITE['domain']}/assets/img/logo.svg",
-  "email": "{SITE['email']}",{phone_schema}
-  "servesCuisine": ["Indian", "Middle Eastern", "American"],
+  "image": ["{SITE['domain']}/assets/img/og-image.jpg"],
+  "logo": "{SITE['domain']}/assets/img/logo.svg",
+  "email": "{SITE['email']}",{phone}
   "priceRange": "$$",
+  "currenciesAccepted": "USD",
+  "paymentAccepted": "Cash, Credit Card, Debit Card, Mobile Payment",
+  "servesCuisine": ["Hookah", "Indian", "Pakistani", "Middle Eastern", "American"],
+  "acceptsReservations": "True",
+  "smokingAllowed": true,
+  "publicAccess": true,
+  "hasMenu": "{SITE['domain']}/menu.html",
   "address": {{
     "@type": "PostalAddress",
     "streetAddress": "{SITE['street']}",
@@ -143,10 +168,63 @@ def head(page, title, desc, extra_schema=""):
     "postalCode": "{SITE['zip']}",
     "addressCountry": "US"
   }},
-  "openingHours": [{", ".join(SITE['hours_schema'])}],
+  "geo": {{"@type": "GeoCoordinates", "latitude": "{SITE['lat']}", "longitude": "{SITE['lon']}"}},
+  "hasMap": "{SITE['maps']}",
+  "areaServed": [{areas}],
+  "openingHoursSpecification": [{spec}
+  ],
+  "amenityFeature": [
+    {{"@type":"LocationFeatureSpecification","name":"Premium hookah","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Free Wi-Fi","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Free parking","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Live sports on screen","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Group and private bookings","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Vegetarian options","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Open late","value":true}}
+  ],
+  "potentialAction": {{
+    "@type": "ReserveAction",
+    "target": {{
+      "@type": "EntryPoint",
+      "urlTemplate": "{SITE['domain']}/reserve.html",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform"
+      ]
+    }},
+    "result": {{"@type": "Reservation", "name": "Table reservation at {SITE['full']}"}}
+  }},
   "sameAs": ["{SITE['instagram']}"]
 }}
+</script>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "{SITE['domain']}/#website",
+  "url": "{SITE['domain']}/",
+  "name": "{SITE['full']}",
+  "publisher": {{"@id": "{SITE['domain']}/#business"}},
+  "inLanguage": "en-US"
+}}
 </script>'''
+
+
+def breadcrumb_schema(page, label):
+    return '''
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"%s/"},
+{"@type":"ListItem","position":2,"name":"%s","item":"%s/%s"}]}
+</script>''' % (SITE["domain"], label, SITE["domain"], page)
+
+
+def head(page, title, desc, extra_schema=""):
+    canonical = SITE["domain"] + "/" + ("" if page == "index.html" else page)
+    noindex = page in ("thank-you.html", "404.html")
+    robots = ("noindex, follow" if noindex
+              else "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1")
+    schema = "" if noindex else (business_schema() if page == "index.html" else "")
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -154,16 +232,30 @@ def head(page, title, desc, extra_schema=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<meta name="robots" content="{robots}">
 <link rel="canonical" href="{canonical}">
 <meta name="theme-color" content="#0b0a09">
+<meta name="author" content="{SITE['full']}">
 
-<meta property="og:type" content="website">
+<meta name="geo.region" content="US-GA">
+<meta name="geo.placename" content="{SITE['city']}, {SITE['state']}">
+<meta name="geo.position" content="{SITE['lat']};{SITE['lon']}">
+<meta name="ICBM" content="{SITE['lat']}, {SITE['lon']}">
+
+<meta property="og:type" content="{"business.business" if page == "index.html" else "website"}">
 <meta property="og:site_name" content="{SITE['full']}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{canonical}">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="{SITE['domain']}/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{SITE['full']} \u2014 premium hookah lounge in Marietta, Georgia">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{SITE['domain']}/assets/img/og-image.jpg">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/logo.svg">
@@ -174,7 +266,8 @@ def head(page, title, desc, extra_schema=""):
 <link rel="stylesheet" href="assets/css/styles.css">
 <script>document.documentElement.className += " js";</script>{schema}{extra_schema}
 </head>
-<body>'''
+<body>
+<a class="skip-link" href="#main">Skip to content</a>'''
 
 
 def header(page):
@@ -248,17 +341,17 @@ def footer():
         </div>
       </div>
       <div>
-        <h4>Visit</h4>
+        <h2 class="footer-head">Visit</h2>
         <p>{SITE['street']}<br>{SITE['city']}, {SITE['state']} {SITE['zip']}</p>
         <p><a href="{SITE['maps']}" target="_blank" rel="noopener">Get directions &rarr;</a></p>
         <p style="font-size:.82rem;color:var(--text-faint);margin-top:.8rem">{SITE['age']}</p>
       </div>
       <div>
-        <h4>Hours</h4>
+        <h2 class="footer-head">Hours</h2>
         <ul style="font-size:.9rem;line-height:1.5">{hours}</ul>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h2 class="footer-head">Explore</h2>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="menu.html">Menu</a></li>
@@ -397,9 +490,10 @@ def build_home():
   <div class="hero__smoke" aria-hidden="true"></div>
   <div class="wrap hero__grid">
     <div class="hero__inner">
-      <p class="hero__tag">Marietta, Georgia</p>
-      <h1>Where the smoke settles<br>and the <em>night opens up</em>.</h1>
-      <p class="lede">Urban Puff is a hookah lounge and bar on Wylie Road \u2014 premium shisha, a kitchen turning out tikka and kababs, mocktails shaken to order, and a room built for staying a while.</p>
+      <p class="hero__tag">Marietta, Georgia \u00b7 Open Late</p>
+      <h1>Premium hookah lounge &amp; bar in <em>Marietta</em>.</h1>
+      <p class="hero__poem">Where the smoke settles and the night opens up.</p>
+      <p class="lede">Urban Puff is a premium hookah lounge and bar on Wylie Road SE \u2014 top-shelf shisha and house flavour mixes, a kitchen turning out tikka and kababs, mocktails shaken to order, sports on the big screens, and a room built for staying a while.</p>
       <div class="btn-row" style="margin-top:2.2rem">
         <a class="btn btn--solid" href="reserve.html">Reserve a table</a>
         <a class="btn btn--ghost" href="menu.html">See the menu</a>
@@ -488,6 +582,21 @@ def build_home():
       </div>
       <div class="reveal">
         %s
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap" style="max-width:900px">
+    <div class="reveal center">
+      <p class="eyebrow">Near You</p>
+      <h2>A hookah lounge for the whole of Cobb County.</h2>
+      <p class="lede">We\u2019re on Wylie Road SE, just off South Marietta Parkway and a couple of minutes from I-75 \u2014 which makes us an easy run from most of the county. Regulars come from <strong>Marietta</strong> and <strong>Kennesaw</strong>, from <strong>Smyrna</strong> and <strong>Vinings</strong> on the way back into the city, and from <strong>Austell</strong>, <strong>Mableton</strong> and <strong>Powder Springs</strong>. Dobbins Air Reserve Base is up the road, and students from Life University and Kennesaw State tend to fill the back booths midweek.</p>
+      <p class="lede">On Fridays and Saturdays we open at <strong>2:30 PM</strong> \u2014 earlier than most lounges around here \u2014 so the afternoon crowd gets the room before the night crowd arrives. If you\u2019ve been searching for a hookah bar near you that is still serving food at 1 AM, this is it.</p>
+      <div class="btn-row center" style="margin-top:1.8rem">
+        <a class="btn btn--ghost" href="menu.html">Browse the shisha flavour board</a>
+        <a class="btn btn--ghost" href="visit.html">Hours, parking and FAQ</a>
       </div>
     </div>
   </div>
@@ -620,7 +729,7 @@ def flavour_section():
     blocks = "".join(
         '''
       <div class="flavour-group reveal">
-        <h4>%s</h4>
+        <h3>%s</h3>
         <ul class="flavour-list">%s</ul>
       </div>''' % (title, "".join("<li>%s</li>" % f for f in items))
         for title, items in SITE["flavours"]
@@ -742,7 +851,7 @@ def build_visit():
             src="https://www.google.com/maps?q=562%20Wylie%20Rd%20SE%20Suite%203%2C%20Marietta%2C%20GA%2030060&output=embed"></iframe>
         </div>
         <div class="card">
-          <h3>Urban Puff Lounge and Bar</h3>
+          <h2 class="panel-head">Urban Puff Lounge and Bar</h2>
           <p>{SITE['street']}<br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><br>
           <a href="mailto:{SITE['email']}">{SITE['email']}</a><br>
           <a href="{SITE['instagram']}" target="_blank" rel="noopener">@urbanpuff.562</a></p>
@@ -778,7 +887,7 @@ def build_reserve():
     <div class="split" style="align-items:start">
       <div class="reveal">
         <div class="form-panel">
-          <h3 style="margin-bottom:.3em">Request a table</h3>
+          <h2 class="panel-head">Request a table</h2>
           <p class="form__note" style="margin-bottom:1.8rem">We\u2019ll confirm by text or call, usually within the hour. Nothing is charged and nothing is locked in until we come back to you.</p>
 
           <div class="form-status" data-form-status aria-live="polite"></div>
@@ -901,7 +1010,7 @@ def build_contact():
     <div class="split" style="align-items:start">
       <div class="reveal">
         <div class="form-panel">
-          <h3 style="margin-bottom:.3em">Send us a message</h3>
+          <h2 class="panel-head">Send us a message</h2>
           <p class="form__note" style="margin-bottom:1.8rem">Everything below goes straight to our inbox &mdash; you stay right here. We usually reply the same day.</p>
 
           <div class="form-status" data-form-status aria-live="polite"></div>
@@ -1013,37 +1122,95 @@ def build_404():
 
 
 PAGES = [
-    ("index.html", f"{SITE['full']} | Hookah, Mocktails &amp; Good Vibes in Marietta, GA", "Urban Puff Lounge and Bar in Marietta, GA — premium hookah, tikka and kababs, flavorful mains, refreshing mocktails, sports on screen and free Wi-Fi at 562 Wylie Rd SE.", build_home),
-    ("menu.html", f"Menu | {SITE['full']}", "Premium hookah, tikka and kababs, flavorful mains, tasty sides, refreshing mocktails and sweet endings at Urban Puff Lounge and Bar, Marietta GA.", build_menu),
-    ("gallery.html", f"Gallery | {SITE['full']}", "Inside Urban Puff Lounge and Bar — the lounge floor, hookah setups, the grill, the bar and late nights in Marietta, GA.", build_gallery),
-    ("visit.html", f"Visit &amp; Hours | {SITE['full']}", "Opening hours, parking, group bookings and directions to Urban Puff Lounge and Bar, 562 Wylie Rd SE Suite 3, Marietta, GA 30060.", build_visit),
-    ("reserve.html", f"Reserve a Table | {SITE['full']}", "Reserve a table at Urban Puff Lounge and Bar in Marietta, GA \u2014 hookah, food and mocktails. Birthdays and large groups welcome.", build_reserve),
-    ("contact.html", f"Contact | {SITE['full']}", "Message Urban Puff Lounge and Bar in Marietta, GA about bookings, large groups, birthdays or the menu.", build_contact),
-    ("thank-you.html", f"Thank you | {SITE['full']}", "Thanks for contacting Urban Puff Lounge and Bar.", build_thanks),
-    ("404.html", f"Page not found | {SITE['full']}", "That page doesn't exist.", build_404),
+    ("index.html",
+     f"Premium Hookah Lounge &amp; Bar in Marietta, GA | {SITE['name']}",
+     "Premium hookah lounge and bar at 562 Wylie Rd SE, Marietta GA. Top-shelf shisha, tikka and kababs, mocktails, sports on screen, free Wi-Fi. Open late.",
+     build_home, ""),
+
+    ("menu.html",
+     f"Hookah Flavours &amp; Food Menu | {SITE['name']}, Marietta GA",
+     "The full shisha flavour board and kitchen menu at Urban Puff Lounge, Marietta \u2014 house hookah mixes, tikka and kababs, biryani, wings, mocktails, desserts.",
+     build_menu, "Menu"),
+
+    ("gallery.html",
+     f"Inside Our Hookah Lounge | {SITE['name']}, Marietta GA",
+     "A look inside Urban Puff Lounge and Bar in Marietta, Georgia \u2014 the lounge floor, hookah setups, food off the grill, the mocktail bar and the room after dark.",
+     build_gallery, "Gallery"),
+
+    ("visit.html",
+     f"Hours, Location &amp; FAQ | {SITE['name']} Lounge, Marietta",
+     "Urban Puff Lounge hours, parking, age policy and directions. 562 Wylie Rd SE Suite 3, Marietta GA 30060. Open 5:30 PM Mon\u2013Thu, 2:30 PM Fri\u2013Sun.",
+     build_visit, "Visit &amp; Hours"),
+
+    ("reserve.html",
+     f"Reserve a Table | {SITE['name']} Hookah Lounge, Marietta",
+     "Reserve a table at Urban Puff hookah lounge and bar in Marietta, GA. Birthdays, watch parties and groups up to 25 welcome. Takes a minute and costs nothing.",
+     build_reserve, "Reserve a Table"),
+
+    ("contact.html",
+     f"Contact Us | {SITE['name']} Hookah Lounge &amp; Bar, Marietta",
+     "Get in touch with Urban Puff Lounge and Bar, Marietta GA about bookings, large groups, birthdays, private hire or the menu. We reply the same day.",
+     build_contact, "Contact"),
+
+    ("thank-you.html", f"Thank you | {SITE['full']}",
+     "Thanks for contacting Urban Puff Lounge and Bar.", build_thanks, ""),
+
+    ("404.html", f"Page not found | {SITE['full']}",
+     "That page doesn't exist. Find the menu, hours and reservations for Urban Puff Lounge and Bar in Marietta, GA.", build_404, ""),
 ]
 
 
 def build_sitemap():
     today = datetime.date.today().isoformat()
-    urls = "".join(
-        f'''
-  <url><loc>{SITE['domain']}/{'' if f == 'index.html' else f}</loc><lastmod>{today}</lastmod></url>'''
-        for f, *_ in PAGES if f not in ("404.html", "thank-you.html")
-    )
-    xml = f'''<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}
-</urlset>
-'''
+    weights = {
+        "index.html": ("1.0", "weekly"),
+        "menu.html": ("0.9", "weekly"),
+        "reserve.html": ("0.9", "monthly"),
+        "visit.html": ("0.8", "monthly"),
+        "gallery.html": ("0.6", "monthly"),
+        "contact.html": ("0.6", "monthly"),
+    }
+    urls = ""
+    for f, *_ in PAGES:
+        if f not in weights:
+            continue
+        prio, freq = weights[f]
+        loc = SITE["domain"] + "/" + ("" if f == "index.html" else f)
+        urls += ('\n  <url><loc>%s</loc><lastmod>%s</lastmod>'
+                 '<changefreq>%s</changefreq><priority>%s</priority></url>'
+                 % (loc, today, freq, prio))
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s\n</urlset>\n' % urls)
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(xml)
     open(os.path.join(ROOT, "robots.txt"), "w").write(
-        f"User-agent: *\nAllow: /\n\nSitemap: {SITE['domain']}/sitemap.xml\n")
+        "User-agent: *\nAllow: /\nDisallow: /thank-you.html\n\n"
+        "Sitemap: %s/sitemap.xml\n" % SITE["domain"])
     print("wrote sitemap.xml, robots.txt")
 
 
+def menu_schema():
+    sections = ",".join(
+        '{"@type":"MenuSection","name":%s}' % json.dumps(name.replace("&amp;", "&"))
+        for name in ["Premium Hookah", "Tikka & Kababs", "Flavorful Mains",
+                     "Tasty Sides", "Refreshing Mocktails", "Sweet Endings"]
+    )
+    return '''
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Menu","name":"Urban Puff Lounge and Bar menu",
+"url":"%s/menu.html","inLanguage":"en-US",
+"hasMenuSection":[%s]}
+</script>''' % (SITE["domain"], sections)
+
+
 if __name__ == "__main__":
-    for filename, title, desc, fn in PAGES:
-        extra = faq_schema() if filename == "visit.html" else ""
+    for filename, title, desc, fn, crumb in PAGES:
+        extra = ""
+        if crumb:
+            extra += breadcrumb_schema(filename, crumb.replace("&amp;", "&"))
+        if filename == "visit.html":
+            extra += faq_schema()
+        if filename == "menu.html":
+            extra += menu_schema()
         page(filename, title, desc, fn(), extra)
     build_sitemap()
     print("\nDone.")

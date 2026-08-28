@@ -300,7 +300,7 @@ ul{margin:0;padding:0;list-style:none}
 /* ---------- footer ---------- */
 .site-footer{background:#080807;border-top:1px solid var(--line);padding:4.5rem 0 2rem}
 .footer-grid{display:grid;gap:2.6rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-bottom:3rem}
-.footer-grid h4{
+.footer-grid h2.footer-head{
   font-family:var(--body);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);margin:0 0 1.1rem;font-weight:400;
 }
@@ -558,7 +558,7 @@ ul{margin:0;padding:0;list-style:none}
    Flavour board
    ========================================================================== */
 .flavour-grid{display:grid;gap:1.6rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-.flavour-group h4{
+.flavour-group h3{
   font-family:var(--body);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);font-weight:400;margin:0 0 1.1rem;padding-bottom:.7rem;
   border-bottom:1px solid var(--line);
@@ -595,3 +595,20 @@ ul{margin:0;padding:0;list-style:none}
 .faq summary:hover{color:var(--gold-bright)}
 .faq__body{padding:0 1.4rem 1.35rem}
 .faq__body p{margin:0;color:var(--text-dim);font-size:.95rem}
+
+/* accessibility + SEO helpers */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--gold);color:var(--ink);padding:.7rem 1.2rem;border-radius:0 0 8px 0;
+  font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+}
+.skip-link:focus{left:0;color:var(--ink)}
+.hero__poem{
+  font-family:var(--display);font-style:italic;
+  font-size:clamp(1.15rem,2.1vw,1.5rem);color:var(--gold-bright);
+  margin:-.4rem 0 1.3rem;
+}
+.section--tight .lede strong{color:var(--text);font-weight:400}
+
+.panel-head{font-size:clamp(1.3rem,2.2vw,1.65rem);margin-bottom:.3em}
+.hero h1{font-size:clamp(2.4rem,5vw,4rem);max-width:16ch}

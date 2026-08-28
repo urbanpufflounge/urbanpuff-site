@@ -136,6 +136,51 @@ uncomment that line — CSS hides the artwork automatically:
 | Mocktails card | `assets/img/mocktail.jpg` |
 | Sweet Endings card | `assets/img/dessert.jpg` |
 
+## SEO
+
+Everything on-page is in place:
+
+- **Titles** 50–56 characters, keyword first, brand last — e.g. "Premium Hookah
+  Lounge & Bar in Marietta, GA | Urban Puff".
+- **Meta descriptions** 143–157 characters, each one written for the page.
+- **One `<h1>` per page**, no skipped heading levels, keyword-led on the home page.
+- **JSON-LD**: `BarOrPub` + `Restaurant` on the home page with geo coordinates,
+  `openingHoursSpecification`, amenities, `acceptsReservations`, `hasMenu`,
+  `areaServed`, `smokingAllowed` and a `ReserveAction`; plus `WebSite`,
+  `BreadcrumbList` on every inner page, `Menu` on the menu page and `FAQPage`
+  on the visit page.
+- **`robots`** meta with `max-image-preview:large` so Google can show a big
+  thumbnail; `noindex, follow` on the thank-you and 404 pages.
+- **Open Graph + Twitter cards** complete, including image dimensions and alt.
+- **`geo.position` / `ICBM`** meta with the venue's coordinates.
+- **sitemap.xml** with lastmod, changefreq and priority; **robots.txt** points at it.
+- Local relevance copy on the home page naming the areas actually served.
+
+### The honest part
+
+On-page work is roughly **a fifth** of what decides local ranking. The biggest
+lever by far is the **Google Business Profile** — category, description, photos
+posted regularly — followed by **review volume and recency**. A perfect website
+will not outrank a competitor with 200 recent reviews.
+
+So, in priority order:
+
+1. Claim and complete the Google Business Profile. Primary category
+   **"Hookah bar"**. Post photos weekly.
+2. Ask every happy guest for a Google review. Volume and recency both count.
+3. Make the name, address and phone **identical** everywhere — website, Google,
+   Yelp, Instagram, Facebook. One inconsistent phone number fragments the entity
+   and costs you trust across all of them.
+4. Submit `sitemap.xml` in Google Search Console.
+5. Get a few local links: Cobb Chamber of Commerce, Marietta event listings,
+   local blogs. One local news mention beats fifty directory listings.
+
+### NAP warning
+
+The US Census geocoder resolves 562 Wylie Rd SE to ZIP **30067**, not 30060.
+Check which one your Google listing and your mail actually use, and make the
+site match it exactly — `SITE["zip"]` in `tools/build.py`.
+
 ## Things to update before/after launch
 
 | What | Where |
