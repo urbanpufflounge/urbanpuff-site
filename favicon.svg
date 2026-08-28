@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Urban Puff">
+  <defs>
+    <linearGradient id="up-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0cf7a"/>
+      <stop offset="1" stop-color="#a8811f"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="none" stroke="url(#up-g)" stroke-width="1.6"/>
+  <circle cx="32" cy="32" r="25.5" fill="none" stroke="url(#up-g)" stroke-width="0.6" opacity=".55"/>
+  <!-- hookah silhouette -->
+  <path d="M32 15.5v7" stroke="url(#up-g)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M27.5 15.5h9" stroke="url(#up-g)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M29 22.5h6l-1.2 6.5h-3.6z" fill="url(#up-g)"/>
+  <path d="M32 29v8" stroke="url(#up-g)" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M32 37c-5 0-8 3.4-8 7.4S27.2 51 32 51s8-2.6 8-6.6S37 37 32 37z" fill="none" stroke="url(#up-g)" stroke-width="1.8"/>
+  <path d="M32 40.5c-3 0-4.8 2-4.8 4.2 0 2.1 2 3.6 4.8 3.6s4.8-1.5 4.8-3.6c0-2.2-1.8-4.2-4.8-4.2z" fill="url(#up-g)" opacity=".22"/>
+  <!-- hose -->
+  <path d="M32 33c4.5 0 7.5 1.5 8.8 4.6 1 2.4.4 4.6-1.4 5.6" fill="none" stroke="url(#up-g)" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>
+  <!-- smoke -->
+  <path d="M28.6 12c-1.6-1.5-1.6-3 0-4.4 1.5-1.4 1.5-2.7.2-4" fill="none" stroke="url(#up-g)" stroke-width="1.1" stroke-linecap="round" opacity=".7"/>
+  <path d="M35.4 12c1.6-1.5 1.6-3 0-4.4-1.5-1.4-1.5-2.7-.2-4" fill="none" stroke="url(#up-g)" stroke-width="1.1" stroke-linecap="round" opacity=".45"/>
+</svg>
