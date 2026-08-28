@@ -158,3 +158,38 @@ the change, hard-refresh (Cmd/Ctrl + Shift + R).
 | Form does nothing / 404s | FormSubmit hasn't been activated yet — see Stage 3. |
 | Form works but no email arrives | Check Gmail spam, and confirm the activation link was clicked. |
 | Google Maps embed is blank locally | Expected — it needs internet and works once deployed. |
+
+
+---
+
+## Keeping the repository out of search results
+
+The site itself is clean: `urbanpufflounge.github.io` 301s to the custom domain,
+every page carries a canonical URL pointing at `urbanpufflounge.com`, and
+`robots.txt` keeps `/docs/`, `/tools/` and the README out of the index. Nothing
+on the site competes with itself.
+
+The **GitHub repository page** is a different matter, and worth being clear about:
+
+- GitHub controls `github.com/robots.txt`. Nothing you put in a repository —
+  a robots.txt, a meta tag, a setting — changes how Google crawls the repo page.
+  There is no "noindex this repository" option.
+- What *can* be reduced is how well the repo page matches a search for the
+  business. Google leans on the repository **name**, its **description**, its
+  **topics**, and the rendered **README**. The README here is deliberately
+  generic and carries no business name, address, phone or hours.
+
+To go further, in order of effect:
+
+1. **Rename the repository** to something that doesn't contain the brand
+   (Settings -> General -> Repository name). GitHub redirects the old URL, so
+   pushes keep working and Pages is unaffected.
+2. **Clear the About panel** on the repo page — remove the description, the
+   website link and any topics.
+3. **Make the repository private.** This is the only complete fix, and it needs
+   a paid plan: GitHub Pages only serves private repositories on Pro, Team or
+   Enterprise. On the Free plan a Pages site must come from a public repository.
+
+Note that "not indexed" and "not public" are different things. While the
+repository is public, anyone with the URL can read every file in it whether or
+not Google lists it.

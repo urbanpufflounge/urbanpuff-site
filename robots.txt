@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /thank-you.html
+Disallow: /docs/
+Disallow: /tools/
+Disallow: /README.md
 
 Sitemap: https://urbanpufflounge.com/sitemap.xml

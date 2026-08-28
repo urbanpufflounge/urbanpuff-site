@@ -1269,8 +1269,16 @@ def build_sitemap():
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s\n</urlset>\n' % urls)
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(xml)
+    # GitHub Pages serves everything in the repo, including the docs and the
+    # generator. Keep those out of the index — only the pages should rank.
     open(os.path.join(ROOT, "robots.txt"), "w").write(
-        "User-agent: *\nAllow: /\nDisallow: /thank-you.html\n\n"
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /thank-you.html\n"
+        "Disallow: /docs/\n"
+        "Disallow: /tools/\n"
+        "Disallow: /README.md\n"
+        "\n"
         "Sitemap: %s/sitemap.xml\n" % SITE["domain"])
     print("wrote sitemap.xml, robots.txt")
 
