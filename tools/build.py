@@ -40,7 +40,7 @@ SITE = {
     "street": "562 Wylie Rd SE, Suite 3",
     "city": "Marietta",
     "state": "GA",
-    "zip": "30060",
+    "zip": "30067",
     # ---- SINGLE SOURCE OF TRUTH FOR HOURS -------------------------------
     # "close" may exceed 24:00 to mean "closes after midnight" (25:00 = 1 AM).
     # days: 0 = Sunday ... 6 = Saturday
@@ -936,7 +936,7 @@ def build_reserve():
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="{SITE['domain']}/thank-you.html">
-            <input type="hidden" name="_autoresponse" value="Thanks for your table request at Urban Puff Lounge &amp; Bar. We've received it and will confirm by text or call shortly. Nothing is booked until you hear back from us. \u2014 562 Wylie Rd SE, Suite 3, Marietta, GA 30060">
+            <input type="hidden" name="_autoresponse" value="Thanks for your table request at Urban Puff Lounge &amp; Bar. We've received it and will confirm by text or call shortly. Nothing is booked until you hear back from us. \u2014 562 Wylie Rd SE, Suite 3, Marietta, GA 30067">
             <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form__row">
@@ -1064,7 +1064,7 @@ def build_contact():
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="{SITE['domain']}/thank-you.html">
-            <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Urban Puff Lounge &amp; Bar. We've got your message and someone from the team will get back to you shortly. — 562 Wylie Rd SE, Suite 3, Marietta, GA 30060">
+            <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Urban Puff Lounge &amp; Bar. We've got your message and someone from the team will get back to you shortly. — 562 Wylie Rd SE, Suite 3, Marietta, GA 30067">
             <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form__row">
@@ -1175,7 +1175,7 @@ PAGES = [
 
     ("visit.html",
      f"Hours, Location &amp; FAQ | {SITE['name']} Lounge, Marietta",
-     "Urban Puff Lounge hours, parking, age policy and directions. 562 Wylie Rd SE Suite 3, Marietta GA 30060. Open 5:30 PM Mon\u2013Thu, 2:30 PM Fri\u2013Sun.",
+     "Urban Puff Lounge hours, parking, age policy and directions. 562 Wylie Rd SE Suite 3, Marietta GA 30067. Open 5:30 PM Mon\u2013Thu, 2:30 PM Fri\u2013Sun.",
      build_visit, "Visit &amp; Hours"),
 
     ("reserve.html",
