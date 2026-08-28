@@ -14,7 +14,12 @@ import art
 
 SITE = {
     "name": "Urban Puff",
-    "full": "Urban Puff Lounge and Bar",
+    # Matches the Google Business Profile exactly (ampersand, not "and").
+    # HTML-escaped because it is written into markup; full_plain is for JSON-LD.
+    "full": "Urban Puff Lounge &amp; Bar",
+    "full_plain": "Urban Puff Lounge & Bar",
+    # Kept for search: people type and link both spellings.
+    "full_alt": "Urban Puff Lounge and Bar",
     "tagline": "Hookah • Mocktails • Food • Good Vibes",
     "domain": "https://urbanpufflounge.com",
     # No inbox address is stored anywhere in this repository. Forms post to the
@@ -168,8 +173,8 @@ def business_schema():
   "@context": "https://schema.org",
   "@type": ["BarOrPub", "Restaurant"],
   "@id": "{SITE['domain']}/#business",
-  "name": "{SITE['full']}",
-  "alternateName": "{SITE['name']}",
+  "name": "{SITE['full_plain']}",
+  "alternateName": ["{SITE['name']}", "{SITE['full_alt']}", "Urban Puff Hookah Lounge"],
   "description": "Premium hookah lounge and bar in Marietta, Georgia. Top-shelf shisha and house flavour mixes, tikka and kababs off the grill, mocktails shaken to order, sports on the big screens, free Wi-Fi and comfortable seating. Open late seven nights a week.",
   "url": "{SITE['domain']}/",
   "image": ["{SITE['domain']}/assets/img/og-image.jpg"],
@@ -215,7 +220,7 @@ def business_schema():
         "http://schema.org/MobileWebPlatform"
       ]
     }},
-    "result": {{"@type": "Reservation", "name": "Table reservation at {SITE['full']}"}}
+    "result": {{"@type": "Reservation", "name": "Table reservation at {SITE['full_plain']}"}}
   }},
   "sameAs": ["{SITE['instagram']}"]
 }}
@@ -226,7 +231,8 @@ def business_schema():
   "@type": "WebSite",
   "@id": "{SITE['domain']}/#website",
   "url": "{SITE['domain']}/",
-  "name": "{SITE['full']}",
+  "name": "{SITE['full_plain']}",
+  "alternateName": "{SITE['full_alt']}",
   "publisher": {{"@id": "{SITE['domain']}/#business"}},
   "inLanguage": "en-US"
 }}
@@ -259,6 +265,7 @@ def head(page, title, desc, extra_schema=""):
 <link rel="canonical" href="{canonical}">
 <meta name="theme-color" content="#0b0a09">
 <meta name="author" content="{SITE['full']}">
+<meta name="keywords" content="Urban Puff Lounge &amp; Bar, Urban Puff Lounge and Bar, Urban Puff Marietta, hookah lounge Marietta GA, hookah bar near me, premium hookah lounge Atlanta, shisha Marietta, hookah and food Marietta, mocktail bar Marietta, Cobb County hookah lounge">
 
 <meta name="geo.region" content="US-GA">
 <meta name="geo.placename" content="{SITE['city']}, {SITE['state']}">
@@ -518,7 +525,7 @@ def build_home():
       <p class="hero__tag">Marietta, Georgia \u00b7 Open Late</p>
       <h1>Premium hookah lounge &amp; bar in <em>Marietta</em>.</h1>
       <p class="hero__poem">Where the smoke settles and the night opens up.</p>
-      <p class="lede">Urban Puff is a premium hookah lounge and bar on Wylie Road SE \u2014 top-shelf shisha and house flavour mixes, a kitchen turning out tikka and kababs, mocktails shaken to order, sports on the big screens, and a room built for staying a while.</p>
+      <p class="lede">Urban Puff Lounge &amp; Bar is a premium hookah lounge and bar on Wylie Road SE \u2014 top-shelf shisha and house flavour mixes, a kitchen turning out tikka and kababs, mocktails shaken to order, sports on the big screens, and a room built for staying a while.</p>
       <div class="btn-row" style="margin-top:2.2rem">
         <a class="btn btn--solid" href="reserve.html">Reserve a table</a>
         <a class="btn btn--ghost" href="menu.html">See the menu</a>
@@ -642,7 +649,7 @@ def build_home():
         </div>
       </div>
       <div class="reveal map-frame">
-        <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        <iframe title="Map to Urban Puff Lounge &amp; Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           src="%s"></iframe>
       </div>
     </div>
@@ -876,11 +883,11 @@ def build_visit():
       </div>
       <div class="reveal">
         <div class="map-frame" style="margin-bottom:1.6rem">
-          <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          <iframe title="Map to Urban Puff Lounge &amp; Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
             src="{SITE['maps_embed']}"></iframe>
         </div>
         <div class="card">
-          <h2 class="panel-head">Urban Puff Lounge and Bar</h2>
+          <h2 class="panel-head">Urban Puff Lounge &amp; Bar</h2>
           <p>{SITE['street']}<br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><br>
           <a href="tel:{SITE['phone_tel']}">{SITE['phone']}</a><br>
           <a href="contact.html">Send us a message</a><br>
@@ -929,7 +936,7 @@ def build_reserve():
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="{SITE['domain']}/thank-you.html">
-            <input type="hidden" name="_autoresponse" value="Thanks for your table request at Urban Puff Lounge and Bar. We've received it and will confirm by text or call shortly. Nothing is booked until you hear back from us. \u2014 562 Wylie Rd SE, Suite 3, Marietta, GA 30060">
+            <input type="hidden" name="_autoresponse" value="Thanks for your table request at Urban Puff Lounge &amp; Bar. We've received it and will confirm by text or call shortly. Nothing is booked until you hear back from us. \u2014 562 Wylie Rd SE, Suite 3, Marietta, GA 30060">
             <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form__row">
@@ -1020,7 +1027,7 @@ def build_reserve():
           <li><span class="info-list__label">Entry</span><span class="info-list__value">{SITE['age']} \u2014 every guest, every time.</span></li>
         </ul>
         <div class="map-frame" style="margin-top:2rem">
-          <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          <iframe title="Map to Urban Puff Lounge &amp; Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
             src="{SITE['maps_embed']}"></iframe>
         </div>
       </div>
@@ -1057,7 +1064,7 @@ def build_contact():
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="{SITE['domain']}/thank-you.html">
-            <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Urban Puff Lounge and Bar. We've got your message and someone from the team will get back to you shortly. — 562 Wylie Rd SE, Suite 3, Marietta, GA 30060">
+            <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Urban Puff Lounge &amp; Bar. We've got your message and someone from the team will get back to you shortly. — 562 Wylie Rd SE, Suite 3, Marietta, GA 30060">
             <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form__row">
@@ -1110,7 +1117,7 @@ def build_contact():
           <li><span class="info-list__label">Groups</span><span class="info-list__value">Tell us the date, the headcount and the vibe — we'll hold the right table.</span></li>
         </ul>
         <div class="map-frame" style="margin-top:2rem">
-          <iframe title="Map to Urban Puff Lounge and Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          <iframe title="Map to Urban Puff Lounge &amp; Bar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
             src="{SITE['maps_embed']}"></iframe>
         </div>
       </div>
@@ -1163,7 +1170,7 @@ PAGES = [
 
     ("gallery.html",
      f"Inside Our Hookah Lounge | {SITE['name']}, Marietta GA",
-     "A look inside Urban Puff Lounge and Bar in Marietta, Georgia \u2014 the lounge floor, hookah setups, food off the grill, the mocktail bar and the room after dark.",
+     "A look inside Urban Puff Lounge &amp; Bar in Marietta, Georgia \u2014 the lounge floor, hookah setups, food off the grill, the mocktail bar and the room after dark.",
      build_gallery, "Gallery"),
 
     ("visit.html",
@@ -1178,14 +1185,14 @@ PAGES = [
 
     ("contact.html",
      f"Contact Us | {SITE['name']} Hookah Lounge &amp; Bar, Marietta",
-     "Get in touch with Urban Puff Lounge and Bar, Marietta GA about bookings, large groups, birthdays, private hire or the menu. We reply the same day.",
+     "Get in touch with Urban Puff Lounge &amp; Bar, Marietta GA about bookings, large groups, birthdays, private hire or the menu. We reply the same day.",
      build_contact, "Contact"),
 
     ("thank-you.html", f"Thank you | {SITE['full']}",
-     "Thanks for contacting Urban Puff Lounge and Bar.", build_thanks, ""),
+     "Thanks for contacting Urban Puff Lounge &amp; Bar.", build_thanks, ""),
 
     ("404.html", f"Page not found | {SITE['full']}",
-     "That page doesn't exist. Find the menu, hours and reservations for Urban Puff Lounge and Bar in Marietta, GA.", build_404, ""),
+     "That page doesn't exist. Find the menu, hours and reservations for Urban Puff Lounge &amp; Bar in Marietta, GA.", build_404, ""),
 ]
 
 
@@ -1276,7 +1283,7 @@ def menu_schema():
     )
     return '''
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Menu","name":"Urban Puff Lounge and Bar menu",
+{"@context":"https://schema.org","@type":"Menu","name":"Urban Puff Lounge & Bar menu",
 "url":"%s/menu.html","inLanguage":"en-US",
 "hasMenuSection":[%s]}
 </script>''' % (SITE["domain"], sections)
