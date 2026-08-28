@@ -925,7 +925,7 @@ def build_reserve():
       <div class="reveal">
         <div class="form-panel">
           <h2 class="panel-head">Request a table</h2>
-          <p class="form__note" style="margin-bottom:1.8rem">We\u2019ll confirm by text or call, usually within the hour. Nothing is charged and nothing is locked in until we come back to you. Coming tonight? <a href="tel:{SITE['phone_tel']}">Call {SITE['phone']}</a> instead.</p>
+          <p class="form__note" style="margin-bottom:1.8rem">We\u2019ll confirm by text or call as soon as we can. Nothing is charged and nothing is locked in until we come back to you. Coming tonight? <a href="tel:{SITE['phone_tel']}">Call {SITE['phone']}</a> instead.</p>
 
           <div class="form-status" data-form-status aria-live="polite"></div>
 
@@ -936,7 +936,7 @@ def build_reserve():
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="{SITE['domain']}/thank-you.html">
-            <input type="hidden" name="_autoresponse" value="Thanks for your table request at Urban Puff Lounge &amp; Bar. We've received it and will confirm by text or call shortly. Nothing is booked until you hear back from us. \u2014 562 Wylie Rd SE, Suite 3, Marietta, GA 30067">
+            <input type="hidden" name="_autoresponse" value="Thanks for your table request at Urban Puff Lounge &amp; Bar. We've received it and will confirm by text or call as soon as we can. Nothing is booked until you hear back from us. \u2014 562 Wylie Rd SE, Suite 3, Marietta, GA 30067">
             <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form__row">
@@ -1048,7 +1048,7 @@ def build_contact():
       <div class="reveal">
         <div class="form-panel">
           <h2 class="panel-head">Send us a message</h2>
-          <p class="form__note" style="margin-bottom:1.8rem">Everything below goes straight to our inbox &mdash; you stay right here. We usually reply the same day.</p>
+          <p class="form__note" style="margin-bottom:1.8rem">Everything below goes straight to our inbox &mdash; you stay right here. We\u2019ll get back to you as soon as we can.</p>
 
           <div class="form-status" data-form-status aria-live="polite"></div>
 
@@ -1064,7 +1064,7 @@ def build_contact():
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="{SITE['domain']}/thank-you.html">
-            <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Urban Puff Lounge &amp; Bar. We've got your message and someone from the team will get back to you shortly. — 562 Wylie Rd SE, Suite 3, Marietta, GA 30067">
+            <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Urban Puff Lounge &amp; Bar. We've got your message and someone from the team will get back to you as soon as we can. — 562 Wylie Rd SE, Suite 3, Marietta, GA 30067">
             <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form__row">
@@ -1111,7 +1111,7 @@ def build_contact():
         <p class="eyebrow">Other ways to reach us</p>
         <ul class="info-list">
           <li><span class="info-list__label">Phone</span><span class="info-list__value"><a href="tel:{SITE['phone_tel']}"><strong>{SITE['phone']}</strong></a><br>Quickest way to reach the floor \u2014 call or text.</span></li>
-          <li><span class="info-list__label">Message</span><span class="info-list__value">Use the form \u2014 it lands in our inbox straight away and we reply the same day.</span></li>
+          <li><span class="info-list__label">Message</span><span class="info-list__value">Use the form \u2014 it lands in our inbox and we\u2019ll get back to you as soon as we can.</span></li>
           <li><span class="info-list__label">Instagram</span><span class="info-list__value"><a href="{SITE['instagram']}" target="_blank" rel="noopener">@urbanpuff.562</a> — fastest for what's on tonight</span></li>
           <li><span class="info-list__label">Address</span><span class="info-list__value"><strong>{SITE['street']}</strong><br>{SITE['city']}, {SITE['state']} {SITE['zip']}<br><a href="{SITE['maps']}" target="_blank" rel="noopener">Get directions &rarr;</a></span></li>
           <li><span class="info-list__label">Groups</span><span class="info-list__value">Tell us the date, the headcount and the vibe — we'll hold the right table.</span></li>
@@ -1132,7 +1132,7 @@ def build_thanks():
   <div class="wrap page-head__inner center">
     <p class="eyebrow">Message sent</p>
     <h1>Thanks — we've got it.</h1>
-    <p class="lede">Your message is on its way to the Urban Puff team. We'll come back to you at the email or number you gave us, usually the same day.</p>
+    <p class="lede">Your message is on its way to the Urban Puff team. We\u2019ll come back to you on the number you gave us as soon as we can.</p>
     <div class="btn-row" style="margin-top:2rem">
       <a class="btn btn--solid" href="index.html">Back to home</a>
       <a class="btn btn--ghost" href="menu.html">Browse the menu</a>
@@ -1185,7 +1185,7 @@ PAGES = [
 
     ("contact.html",
      f"Contact Us | {SITE['name']} Hookah Lounge &amp; Bar, Marietta",
-     "Get in touch with Urban Puff Lounge &amp; Bar, Marietta GA about bookings, large groups, birthdays, private hire or the menu. We reply the same day.",
+     "Get in touch with Urban Puff Lounge &amp; Bar, Marietta GA about bookings, large groups, birthdays or the menu. We\u2019ll get back to you as soon as we can.",
      build_contact, "Contact"),
 
     ("thank-you.html", f"Thank you | {SITE['full']}",

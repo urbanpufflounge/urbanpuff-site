@@ -211,7 +211,7 @@
           form.classList.add('is-sent');
           showStatus('ok', 'Message sent',
             'Thanks — we’ve got it. Someone from the Urban Puff team will get ' +
-            'back to you shortly, usually the same day.');
+            'back to you as soon as we can.');
         } else if (pending) {
           showStatus('info', 'Almost there',
             'This form is awaiting a one-time confirmation on our side. Your ' +
