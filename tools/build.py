@@ -45,9 +45,8 @@ SITE = {
     # "close" may exceed 24:00 to mean "closes after midnight" (25:00 = 1 AM).
     # days: 0 = Sunday ... 6 = Saturday
     "hours_data": [
-        {"label": "Monday \u2013 Thursday", "days": [1, 2, 3, 4], "open": "17:30", "close": "25:00"},
-        {"label": "Friday \u2013 Saturday",  "days": [5, 6],       "open": "14:30", "close": "27:00"},
-        {"label": "Sunday",                  "days": [0],          "open": "14:30", "close": "25:00"},
+        {"label": "Sunday \u2013 Thursday", "days": [0, 1, 2, 3, 4], "open": "13:00", "close": "25:00"},
+        {"label": "Friday \u2013 Saturday", "days": [5, 6],          "open": "13:00", "close": "27:00"},
     ],
     "age": "21+ with valid ID",
 
@@ -175,7 +174,7 @@ def business_schema():
   "@id": "{SITE['domain']}/#business",
   "name": "{SITE['full_plain']}",
   "alternateName": ["{SITE['name']}", "{SITE['full_alt']}", "Urban Puff Hookah Lounge"],
-  "description": "Premium hookah lounge and bar in Marietta, Georgia. Top-shelf shisha and house flavour mixes, tikka and kababs off the grill, mocktails shaken to order, sports on the big screens, free Wi-Fi and comfortable seating. Open late seven nights a week.",
+  "description": "Premium hookah lounge and bar in Marietta, Georgia. Top-shelf shisha and house flavour mixes, Mediterranean mezze, kabobs and desi bites, mocktails shaken to order, sports on the big screens, free Wi-Fi and comfortable seating. Open late seven nights a week.",
   "url": "{SITE['domain']}/",
   "image": ["{SITE['domain']}/assets/img/og-image.jpg"],
   "logo": "{SITE['domain']}/assets/img/logo.svg",
@@ -478,7 +477,7 @@ def build_home():
         ("wifi", "Free Wi-Fi", "Fast, free and open to every guest \u2014 work late, stream, or just keep the group chat going."),
         ("music", "Great Music", "Afrobeats, hip-hop, R&B and Desi hits \u2014 the playlist moves with the room, and the volume stays talk-friendly."),
         ("tv", "Sports on Screen", "Big screens on the wall for the game \u2014 football, cricket, basketball, the fights. Come early for a good seat."),
-        ("chef", "Kitchen Till Late", "Tikka, kababs, mains and sides coming out of the kitchen long after most places have closed."),
+        ("chef", "Kitchen Till Late", "Mezze, kabobs, tikka and bar bites \u2014 with wings, fries, samosas and Chicken 65 still coming out after midnight."),
     ]
     cards = "".join(
         '''
@@ -491,9 +490,9 @@ def build_home():
 
     showcase_items = [
         ("hookah",   "hookah.jpg",   "The Bowl",    "Premium Hookah",      "House mixes and single-origin shisha, packed fresh and coal-managed all night so the last pull is as good as the first."),
-        ("grill",    "grill.jpg",    "The Grill",   "Tikka &amp; Kababs",  "Marinated overnight, skewered to order and charred hard over open heat. The smell hits the room before the plate does."),
+        ("grill",    "grill.jpg",    "The Grill",   "Kabobs &amp; Tikka",  "Chicken kabob, hariyali tikka, paneer tikka and weekend lamb chops \u2014 skewered to order and charred hard over open heat."),
         ("mocktail", "mocktail.jpg", "The Bar",     "Mocktails",           "Zero proof, full flavour. Fresh fruit, real citrus and a proper shake \u2014 built to stand up to the grill."),
-        ("dessert",  "dessert.jpg",  "The Finish",  "Sweet Endings",       "Gulab jamun, kulfi and something chocolate for the last hour of the night, when nobody actually wants to leave."),
+        ("lounge",   "latenight.jpg", "After Midnight", "Late-Night Bites", "Wings, fries, samosas and Chicken 65 \u2014 the kitchen keeps going long after most places have closed."),
     ]
     showcase = "".join(
         '''
@@ -525,7 +524,7 @@ def build_home():
       <p class="hero__tag">Marietta, Georgia \u00b7 Open Late</p>
       <h1>Premium hookah lounge &amp; bar in <em>Marietta</em>.</h1>
       <p class="hero__poem">Where the smoke settles and the night opens up.</p>
-      <p class="lede">Urban Puff Lounge &amp; Bar is a premium hookah lounge and bar on Wylie Road SE \u2014 top-shelf shisha and house flavour mixes, a kitchen turning out tikka and kababs, mocktails shaken to order, sports on the big screens, and a room built for staying a while.</p>
+      <p class="lede">Urban Puff Lounge &amp; Bar is a premium hookah lounge and bar on Wylie Road SE \u2014 top-shelf shisha and house flavour mixes, a kitchen turning out Mediterranean mezze, kabobs and desi bites, mocktails shaken to order, sports on the big screens, and a room built for staying a while.</p>
       <div class="btn-row" style="margin-top:2.2rem">
         <a class="btn btn--solid" href="reserve.html">Reserve a table</a>
         <a class="btn btn--ghost" href="menu.html">See the menu</a>
@@ -625,7 +624,7 @@ def build_home():
       <p class="eyebrow">Near You</p>
       <h2>A hookah lounge for the whole of Cobb County.</h2>
       <p class="lede">We\u2019re on Wylie Road SE, just off South Marietta Parkway and a couple of minutes from I-75 \u2014 which makes us an easy run from most of the county. Regulars come from <strong>Marietta</strong> and <strong>Kennesaw</strong>, from <strong>Smyrna</strong> and <strong>Vinings</strong> on the way back into the city, and from <strong>Austell</strong>, <strong>Mableton</strong> and <strong>Powder Springs</strong>. Dobbins Air Reserve Base is up the road, and students from Life University and Kennesaw State tend to fill the back booths midweek.</p>
-      <p class="lede">On Fridays and Saturdays we open at <strong>2:30 PM</strong> \u2014 earlier than most lounges around here \u2014 so the afternoon crowd gets the room before the night crowd arrives. If you\u2019ve been searching for a hookah bar near you that is still serving food at 1 AM, this is it.</p>
+      <p class="lede">We open at <strong>1:00 PM</strong> every day \u2014 earlier than most lounges around here \u2014 so the afternoon crowd gets the room before the night crowd arrives. If you\u2019ve been searching for a hookah bar near you that is still serving food at 1 AM \u2014 or 3 AM on Fridays and Saturdays \u2014 this is it.</p>
       <div class="btn-row center" style="margin-top:1.8rem">
         <a class="btn btn--ghost" href="menu.html">Browse the shisha flavour board</a>
         <a class="btn btn--ghost" href="visit.html">Hours, parking and FAQ</a>
@@ -692,27 +691,27 @@ def build_menu():
             ("Mint &amp; Citrus Range", "Double apple, mint, lemon-mint, blue mist and the classics.", ""),
             ("Coal Refresh", "Coals swapped through the night so the bowl never goes flat.", ""),
         ]),
-        ("Tikka &amp; Kababs", "chef", "Marinated, skewered and charred to order.", [
-            ("Chicken Tikka", "Yoghurt-and-spice marinated chicken, grilled till the edges catch.", "Signature"),
-            ("Seekh Kabab", "Minced meat with herbs and green chilli, pressed onto the skewer.", ""),
-            ("Malai Kabab", "Creamy, mild and tender — the crowd-pleaser of the board.", ""),
-            ("Paneer Tikka", "Charred paneer with peppers and onion.", "Veg"),
-            ("Fish Tikka", "Firm white fish, lemon, ajwain and a hot grill.", ""),
-            ("Mixed Grill Platter", "A little of everything from the grill, built for the table.", "To Share"),
+        ("Mezze &amp; Dips", "chef", "Mediterranean small plates, made for the table.", [
+            ("Hummus", "Chickpea dip, olive oil, warm pita.", ""),
+            ("Baba Ganoush", "Smoky roasted eggplant dip, warm pita.", ""),
+            ("Falafel (6 pc)", "Crispy chickpea balls, tahini.", "Veg"),
+            ("Mezze Platter", "Hummus, baba ganoush, falafel, olives, warm pita. Made for the table.", "To Share"),
         ]),
-        ("Flavorful Mains", "chef", "Plates that anchor the table.", [
-            ("Butter Chicken", "Slow-simmered tomato and cream, served with rice or naan.", ""),
-            ("Karahi &amp; Curries", "Chicken, lamb or veg — cooked down with ginger, chilli and tomato.", ""),
-            ("Biryani", "Layered rice, whole spice and your choice of protein.", "Popular"),
-            ("Wings &amp; Sauces", "Fried crisp, tossed in lemon pepper, buffalo or house masala.", ""),
-            ("Loaded Fries &amp; Burgers", "The late-night side of the menu, done properly.", ""),
-            ("Vegetarian Mains", "Chana, daal and paneer plates with rice or bread.", "Veg"),
+        ("From the Grill", "chef", "Marinated, skewered and charred to order.", [
+            ("Chicken Kabob", "Grilled skewers, Mediterranean rice, garlic sauce.", ""),
+            ("Hariyali Chicken Tikka", "Mint-cilantro marinade, charred on the grill.", ""),
+            ("Paneer Tikka", "Hariyali-marinated paneer, peppers, onion.", "Veg"),
+            ("Lamb Chops (4 pc)", "Chef\u2019s special, mint yogurt. Fri &amp; Sat, while they last.", "Chef\u2019s Special"),
         ]),
-        ("Tasty Sides", "chef", "Small plates while the bowl gets going.", [
-            ("Samosas &amp; Rolls", "Crisp pastry, spiced filling, chutney on the side.", ""),
-            ("Naan &amp; Breads", "Plain, garlic or butter — straight off the heat.", ""),
-            ("Fries &amp; Masala Fries", "Salted, spiced or loaded.", ""),
-            ("Salad &amp; Raita", "Cooling, fresh and there when the grill gets hot.", ""),
+        ("Bar Bites", "chef", "Desi and classic bites while the bowl gets going.", [
+            ("Chicken Wings (8 pc)", "Lemon pepper \u00b7 Buffalo \u00b7 Peri-peri.", ""),
+            ("Fries", "Classic \u00b7 Za\u2019atar \u00b7 Masala.", "Veg"),
+            ("Samosas (3 pc)", "Spiced potato &amp; peas, mint and tamarind chutney.", "Veg"),
+            ("Chicken 65", "Crispy fried chicken, curry leaf, red chili.", ""),
+        ]),
+        ("Wraps &amp; Plates", "chef", "Something more filling.", [
+            ("Chicken Shawarma", "Wrap, or plate with rice &amp; Greek salad. Garlic sauce, pickles.", ""),
+            ("Greek Salad", "Feta, olives, cucumber, tomato, red onion. Add chicken.", "Veg"),
         ]),
         ("Refreshing Mocktails", "glass", "Zero proof, full flavour — shaken to order.", [
             ("Passion Fruit Cooler", "Passion fruit, citrus and soda over crushed ice.", "Signature"),
@@ -721,12 +720,6 @@ def build_menu():
             ("Berry Crush", "Mixed berries, lemon and a long pour of soda.", ""),
             ("Ginger Lemonade", "Sharp, fizzy and made to cut through the grill.", ""),
             ("Fresh Juices &amp; Sodas", "Ask what's fresh tonight.", ""),
-        ]),
-        ("Sweet Endings", "cake", "For the last hour of the night.", [
-            ("Gulab Jamun", "Warm, syrup-soaked and served two to a plate.", ""),
-            ("Kulfi &amp; Ice Cream", "Pistachio, mango or plain vanilla.", ""),
-            ("Chocolate Cake", "Rich, dense, and hard to share.", ""),
-            ("Sweet Shisha Pairings", "Dessert flavours to close out the session.", "House"),
         ]),
     ]
 
@@ -751,12 +744,17 @@ def build_menu():
     return page_head(
         "The Menu",
         "Off the grill, out of the bar,<br>onto your table.",
-        "Prices and daily specials are on the in-house menu — flavours and dishes rotate, so ask your server what's on tonight."
+        "Mediterranean \u00b7 Desi bites. Prices and daily specials are on the in-house menu \u2014 ask your server what\u2019s on tonight."
     ) + flavour_section() + f'''
 <section class="section">
   <div class="wrap">{''.join(blocks)}
+    <div class="center reveal" style="margin-bottom:2.5rem">
+      <p class="eyebrow">Late Night \u00b7 After Midnight</p>
+      <p class="lede">Wings \u00b7 Fries \u00b7 Samosas \u00b7 Chicken 65</p>
+    </div>
     <hr class="rule">
-    <p class="center lede" style="margin-top:2.5rem">Dietary needs, allergies or a big group order? <a href="contact.html">Message us</a> and we'll sort it out before you arrive.</p>
+    <p class="center" style="margin-top:2rem;font-size:.9rem;opacity:.75">Please tell your server about any allergies. Consuming raw or undercooked meats may increase your risk of foodborne illness.</p>
+    <p class="center lede" style="margin-top:1.5rem">Dietary needs, allergies or a big group order? <a href="contact.html">Message us</a> and we'll sort it out before you arrive.</p>
   </div>
 </section>'''
 
@@ -901,11 +899,11 @@ def build_visit():
 
 def build_reserve():
     times = []
-    for h in range(14, 24):
+    for h in range(13, 24):
         for m in ("00", "30"):
             disp = "%d:%s %s" % (h % 12 or 12, m, "PM" if h >= 12 else "AM")
             times.append(disp)
-    times += ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM"]
+    times += ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM"]
     time_opts = "".join('<option>%s</option>' % t for t in times)
     size_opts = "".join('<option>%s</option>' % n for n in
                         ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
@@ -1160,12 +1158,12 @@ def build_404():
 PAGES = [
     ("index.html",
      f"Premium Hookah Lounge &amp; Bar in Marietta, GA | {SITE['name']}",
-     "Premium hookah lounge and bar at 562 Wylie Rd SE, Marietta GA. Top-shelf shisha, tikka and kababs, mocktails, sports on screen, free Wi-Fi. Open late.",
+     "Premium hookah lounge and bar at 562 Wylie Rd SE, Marietta GA. Top-shelf shisha, mezze, kabobs and desi bites, mocktails, sports on screen, free Wi-Fi. Open late.",
      build_home, ""),
 
     ("menu.html",
      f"Hookah Flavours &amp; Food Menu | {SITE['name']}, Marietta GA",
-     "The full shisha flavour board and kitchen menu at Urban Puff Lounge, Marietta \u2014 house hookah mixes, tikka and kababs, biryani, wings, mocktails, desserts.",
+     "The full shisha flavour board and kitchen menu at Urban Puff Lounge, Marietta \u2014 house hookah mixes, mezze and dips, kabobs and tikka, wings, shawarma and mocktails.",
      build_menu, "Menu"),
 
     ("gallery.html",
@@ -1175,7 +1173,7 @@ PAGES = [
 
     ("visit.html",
      f"Hours, Location &amp; FAQ | {SITE['name']} Lounge, Marietta",
-     "Urban Puff Lounge hours, parking, age policy and directions. 562 Wylie Rd SE Suite 3, Marietta GA 30067. Open 5:30 PM Mon\u2013Thu, 2:30 PM Fri\u2013Sun.",
+     "Urban Puff Lounge hours, parking, age policy and directions. 562 Wylie Rd SE Suite 3, Marietta GA 30067. Open daily from 1:00 PM \u2014 till 1 AM Sun\u2013Thu, 3 AM Fri\u2013Sat.",
      build_visit, "Visit &amp; Hours"),
 
     ("reserve.html",
@@ -1286,8 +1284,8 @@ def build_sitemap():
 def menu_schema():
     sections = ",".join(
         '{"@type":"MenuSection","name":%s}' % json.dumps(name.replace("&amp;", "&"))
-        for name in ["Premium Hookah", "Tikka & Kababs", "Flavorful Mains",
-                     "Tasty Sides", "Refreshing Mocktails", "Sweet Endings"]
+        for name in ["Premium Hookah", "Mezze & Dips", "From the Grill", "Bar Bites",
+                     "Wraps & Plates", "Refreshing Mocktails"]
     )
     return '''
 <script type="application/ld+json">
