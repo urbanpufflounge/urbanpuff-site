@@ -522,9 +522,9 @@ def build_home():
   <div class="wrap hero__grid">
     <div class="hero__inner">
       <p class="hero__tag">Marietta, Georgia \u00b7 Open Late</p>
-      <h1>Premium hookah lounge &amp; bar in <em>Marietta</em>.</h1>
+      <h1>Premium Hookah Lounge &amp; Full Bar in <em>Marietta, GA</em></h1>
       <p class="hero__poem">Where the smoke settles and the night opens up.</p>
-      <p class="lede">Urban Puff Lounge &amp; Bar is a premium hookah lounge and bar on Wylie Road SE \u2014 top-shelf shisha and house flavour mixes, a kitchen turning out Mediterranean mezze, kabobs and desi bites, mocktails shaken to order, sports on the big screens, and a room built for staying a while.</p>
+      <p class="lede">Urban Puff Lounge and Bar is Marietta\u2019s premier late-night destination on Wylie Rd SE. Featuring top-shelf shisha, house flavor mixes, a full bar pouring cocktails and cold brews, a kitchen serving Mediterranean kabobs and desi bites past midnight, and sports on the big screens.</p>
       <div class="btn-row" style="margin-top:2.2rem">
         <a class="btn btn--solid" href="reserve.html">Reserve a table</a>
         <a class="btn btn--ghost" href="menu.html">See the menu</a>
@@ -1157,8 +1157,8 @@ def build_404():
 
 PAGES = [
     ("index.html",
-     f"Premium Hookah Lounge &amp; Bar in Marietta, GA | {SITE['name']}",
-     "Premium hookah lounge and bar at 562 Wylie Rd SE, Marietta GA. Top-shelf shisha, mezze, kabobs and desi bites, mocktails, sports on screen, free Wi-Fi. Open late.",
+     "Urban Puff Lounge | Hookah, Bar, Cocktails &amp; Late-Night Bites in Marietta, GA",
+     "Looking for a bar and hookah lounge in Marietta, GA? Visit Urban Puff on Wylie Rd for full bar drinks, top-shelf shisha, kabobs and food past midnight.",
      build_home, ""),
 
     ("menu.html",
