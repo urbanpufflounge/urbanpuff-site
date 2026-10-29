@@ -445,9 +445,15 @@ ul{margin:0;padding:0;list-style:none}
    Showcase band
    ========================================================================== */
 .showcase{display:grid;gap:1.15rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-.showcase--5{grid-template-columns:repeat(auto-fit,minmax(205px,1fr))}
+.showcase--6{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+@media (min-width:900px){.showcase--6{grid-template-columns:repeat(3,1fr)}}
 .footnote-mark{color:var(--gold,currentColor);text-decoration:none;font-size:.6em;vertical-align:super;margin-left:.05em}
-.footnote{margin-top:2.4rem;font-size:.85rem;font-style:italic;opacity:.6}
+.footnote{margin-top:1.4rem;font-size:.85rem;font-style:italic;opacity:.6}
+/* equal-proportion tiles */
+.showcase--6 .art-card .art__svg{aspect-ratio:4/5}
+.showcase--6 .art-card__body{flex:1;display:flex;flex-direction:column}
+.showcase--6 .art-card__body h3{min-height:2.4em}
+@media (min-width:900px){.grid--3{grid-template-columns:repeat(3,1fr)}}
 
 /* ==========================================================================
    Hours panel

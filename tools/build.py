@@ -20,7 +20,7 @@ SITE = {
     "full_plain": "Urban Puff Lounge & Bar",
     # Kept for search: people type and link both spellings.
     "full_alt": "Urban Puff Lounge and Bar",
-    "tagline": "Hookah • Mocktails • Food • Good Vibes",
+    "tagline": "Hookah • Cocktails • Mocktails • Food • Good Vibes",
     "domain": "https://urbanpufflounge.com",
     # No inbox address is stored anywhere in this repository. Forms post to the
     # FormSubmit "invisible email" endpoint below, which resolves to the inbox on
@@ -73,9 +73,30 @@ SITE = {
         ("Monday", "Industry Night", "Service and hospitality staff get the lounge rate all night. Bring your badge."),
         ("Tuesday", "Two-for-Tuesday", "Second hookah bowl half price when you order food."),
         ("Wednesday", "Game Night", "Cards, dominoes and whatever's on the big screen."),
-        ("Thursday", "Ladies Night", "Complimentary mocktail with any hookah, all night."),
+        ("Thursday", "Ladies Night", "Signature cocktails, fresh bowls and the best seats in the house \u2014 bring the whole group."),
         ("Friday &amp; Saturday", "Late Sessions", "DJ on the decks, kitchen open late, room full."),
         ("Sunday", "Slow Sunday", "Sports on every screen and the unhurried version of us."),
+    ],
+
+    # The bar list, straight from the in-house drinks menu. Names only, no prices.
+    "drinks": [
+        ("Whiskey / Bourbon / Scotch", ["Jack Daniel\u2019s Old No. 7", "Jack Daniel\u2019s Tennessee Honey", "Woodford Reserve Bourbon",
+            "Eagle Rare 10 Year Bourbon", "Indri Single Malt", "Johnnie Walker Double Black", "Aberfeldy 12 Year",
+            "Glenlivet 12 Year", "Glenlivet 15 Year", "Glenfiddich 12 Year", "Glenfiddich 15 Year", "Dalmore 12 Year",
+            "Macallan 12 Year Double Cask", "Macallan 15 Year Double Cask", "Green River 1885 Bourbon \u2014 85 Proof"]),
+        ("Tequila", ["Anza Blanco", "Anza Gold", "Jarana Blanco", "Jarana Reposado", "Teremana Blanco", "Patr\u00f3n Silver",
+            "Patr\u00f3n Reposado", "Don Julio Blanco", "Don Julio Reposado", "Casamigos Blanco", "Cazadores Blanco",
+            "Clase Azul Plata", "Clase Azul Reposado"]),
+        ("Beer &amp; Seltzer", ["Heineken", "Miller Lite", "Coors Light", "Stella Artois", "White Claw Hard Seltzer",
+            "Ace Joker Cider", "Athletic Run Wild IPA \u2014 Non-Alcoholic", "Rupee Basmati Rice Lager"]),
+        ("Non-Alcoholic Beverages", ["Coke", "Diet Coke", "Coke Zero", "Pepsi", "Sprite", "Canada Dry",
+            "Bunkhouse Spicy Ginger Ale", "Red Bull", "Red Bull Sugar Free", "Orange Juice", "Strawberry Mango Juice",
+            "Coconut Water", "Water"]),
+
+        ("Vodka", ["Sea Ice", "Wild Leap", "Tokyo Nights Yuzu", "Grey Goose", "Belvedere", "Tito\u2019s Handmade Vodka"]),
+        ("Gin", ["Beefeater", "Bombay Sapphire", "Stratosphere", "Empress 1908", "Monkey 47"]),
+        ("Rum", ["Bacardi Superior / White", "Bacardi Black", "Bacardi Lime", "Planteray 3 Stars Rum"]),
+        ("Liqueurs", ["Chinola Passionfruit Liqueur"]),
     ],
 
     # Shisha flavours — the thing hookah guests actually come to browse.
@@ -96,7 +117,7 @@ SITE = {
         ("Is there parking?",
          "Free lot parking right in front of the suite. No meters, no garage, no walking three blocks in the cold."),
         ("Do you serve alcohol?",
-         "We're a mocktail bar \u2014 everything at the bar is zero proof, made fresh and built to actually taste like something."),
+         "Yes \u2014 we\u2019re a full bar, pouring craft cocktails, cold beer and top-shelf spirits, plus fresh mocktails for anyone skipping the alcohol. 21+ with valid ID."),
         ("Can you handle dietary requirements?",
          "Plenty of the kitchen is vegetarian, and we can adapt a lot of the grill. Message us before you come and we'll sort it out properly."),
         ("How long can we stay?",
@@ -166,6 +187,8 @@ def business_schema():
     )
     areas = ",".join('{"@type":"City","name":"%s"}' % a for a in SITE["area_served"])
     phone = ('\n  "telephone": "%s",' % SITE["phone_tel"]) if SITE["has_phone"] else ""
+    contact = ('{"@type":"ContactPoint","telephone":"%s","contactType":"reservations",'
+               '"areaServed":"US","availableLanguage":"English"}' % SITE["phone_tel"]) if SITE["has_phone"] else ""
     return f'''
 <script type="application/ld+json">
 {{
@@ -174,16 +197,18 @@ def business_schema():
   "@id": "{SITE['domain']}/#business",
   "name": "{SITE['full_plain']}",
   "alternateName": ["{SITE['name']}", "{SITE['full_alt']}", "Urban Puff Hookah Lounge"],
-  "description": "Premium hookah lounge and bar in Marietta, Georgia. Top-shelf shisha and house flavour mixes, Mediterranean mezze, kabobs and desi bites, mocktails shaken to order, sports on the big screens, free Wi-Fi and comfortable seating. Open late seven nights a week.",
+  "description": "Premium hookah lounge and full bar in Marietta, Georgia. Top-shelf shisha and house flavor mixes, craft cocktails, cold beer, top-shelf spirits and fresh mocktails, Mediterranean kabobs and desi bites served past midnight, sports on the big screens, free Wi-Fi and comfortable seating. Open late seven nights a week.",
+  "slogan": "Hookah, full bar and late-night bites in Marietta, GA",
   "url": "{SITE['domain']}/",
   "image": ["{SITE['domain']}/assets/img/og-image.jpg"],
-  "logo": "{SITE['domain']}/assets/img/logo.svg",
+  "logo": "{SITE['domain']}/assets/img/logo-512.png",
+  "parentOrganization": {{"@id": "{SITE['domain']}/#organization"}},
 {phone}
   "priceRange": "$$",
   "currenciesAccepted": "USD",
   "paymentAccepted": "Cash, Credit Card, Debit Card, Mobile Payment",
-  "servesCuisine": ["Hookah", "Indian", "Pakistani", "Middle Eastern", "American"],
-  "acceptsReservations": "True",
+  "servesCuisine": ["Mediterranean", "Middle Eastern", "Indian", "American", "Bar Food"],
+  "acceptsReservations": true,
   "smokingAllowed": true,
   "publicAccess": true,
   "hasMenu": "{SITE['domain']}/menu.html",
@@ -202,6 +227,11 @@ def business_schema():
   ],
   "amenityFeature": [
     {{"@type":"LocationFeatureSpecification","name":"Premium hookah","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Full bar","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Craft cocktails","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Cold beer and spirits","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Mocktails","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Late-night food","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Free Wi-Fi","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Free parking","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Live sports on screen","value":true}},
@@ -221,7 +251,36 @@ def business_schema():
     }},
     "result": {{"@type": "Reservation", "name": "Table reservation at {SITE['full_plain']}"}}
   }},
-  "sameAs": ["{SITE['instagram']}"]
+  "sameAs": ["{SITE['instagram']}", "{SITE['maps_cid']}"]
+}}
+</script>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "{SITE['domain']}/#organization",
+  "name": "{SITE['full_plain']}",
+  "alternateName": ["{SITE['name']}", "{SITE['full_alt']}", "Urban Puff Lounge"],
+  "url": "{SITE['domain']}/",
+  "logo": {{
+    "@type": "ImageObject",
+    "url": "{SITE['domain']}/assets/img/logo-512.png",
+    "width": 512,
+    "height": 512
+  }},
+  "image": "{SITE['domain']}/assets/img/og-image.jpg",
+  "description": "Urban Puff Lounge & Bar is a premium hookah lounge and full bar on Wylie Rd SE in Marietta, Georgia, serving top-shelf shisha, craft cocktails and late-night Mediterranean and desi food.",
+  "foundingDate": "2026-10-02",
+  "address": {{
+    "@type": "PostalAddress",
+    "streetAddress": "{SITE['street']}",
+    "addressLocality": "{SITE['city']}",
+    "addressRegion": "{SITE['state']}",
+    "postalCode": "{SITE['zip']}",
+    "addressCountry": "US"
+  }},{phone}
+  "contactPoint": [{contact}],
+  "sameAs": ["{SITE['instagram']}", "{SITE['maps_cid']}"]
 }}
 </script>
 <script type="application/ld+json">
@@ -232,7 +291,7 @@ def business_schema():
   "url": "{SITE['domain']}/",
   "name": "{SITE['full_plain']}",
   "alternateName": "{SITE['full_alt']}",
-  "publisher": {{"@id": "{SITE['domain']}/#business"}},
+  "publisher": {{"@id": "{SITE['domain']}/#organization"}},
   "inLanguage": "en-US"
 }}
 </script>'''
@@ -264,7 +323,7 @@ def head(page, title, desc, extra_schema=""):
 <link rel="canonical" href="{canonical}">
 <meta name="theme-color" content="#0b0a09">
 <meta name="author" content="{SITE['full']}">
-<meta name="keywords" content="Urban Puff Lounge &amp; Bar, Urban Puff Lounge and Bar, Urban Puff Marietta, hookah lounge Marietta GA, hookah bar near me, premium hookah lounge Atlanta, shisha Marietta, hookah and food Marietta, mocktail bar Marietta, Cobb County hookah lounge">
+<meta name="keywords" content="Urban Puff Lounge &amp; Bar, Urban Puff Lounge and Bar, Urban Puff Marietta, hookah lounge Marietta GA, hookah bar near me, premium hookah lounge Atlanta, shisha Marietta, hookah and food Marietta, cocktail bar Marietta, mocktail bar Marietta, bar Marietta GA, late night bar Marietta, Cobb County hookah lounge">
 
 <meta name="geo.region" content="US-GA">
 <meta name="geo.placename" content="{SITE['city']}, {SITE['state']}">
@@ -491,8 +550,9 @@ def build_home():
     showcase_items = [
         ("hookah",   "hookah.jpg",   "The Bowl",    "Premium Hookah",      "House mixes and single-origin shisha, packed fresh and coal-managed all night so the last pull is as good as the first."),
         ("grill",    "grill.jpg",    "The Grill",   "Kabobs &amp; Tikka",  "Chicken kabob, hariyali tikka, paneer tikka and weekend lamb chops \u2014 skewered to order and charred hard over open heat."),
-        ("mocktail", "cocktail.jpg", "The Bar",     "Full Bar &amp; Cocktails", "Craft cocktails shaken to order, cold beer and proper pours from a fully stocked bar \u2014 built to go with the bowl, the game and the grill."),
-        ("mocktail", "mocktail.jpg", "Zero Proof",  "Mocktails",           "Zero proof, full flavour. Fresh fruit, real citrus and a proper shake \u2014 built to stand up to the grill."),
+        ("mocktail", "fullbar.jpg",  "The Bar",     "Full Bar",            "Cold beer, top-shelf spirits and proper pours from a fully stocked bar \u2014 built to go with the bowl, the game and the grill."),
+        ("mocktail", "cocktail.jpg", "Shaken to Order", "Signature Cocktails", "House cocktails and the classics done right \u2014 fresh citrus, real ice and a proper shake, poured long after midnight."),
+        ("mocktail", "mocktail.jpg", "Zero Proof",  "Mocktails",           "Zero proof, full flavor. Fresh fruit, real citrus and a proper shake \u2014 for anyone skipping the alcohol."),
         ("lounge",   "latenight.jpg", "After Midnight", "Late-Night Bites", "Wings, fries, samosas and Chicken 65 \u2014 the kitchen keeps going long after most places have closed."),
     ]
     showcase = "".join(
@@ -555,6 +615,7 @@ def build_home():
       <div class="reveal">
         <p class="lede">We built Urban Puff around the simple things that make a night worth staying for: a hookah that actually pulls right, a full bar pouring proper craft cocktails, food that comes out hot, and seats you don\u2019t wanna get up from.</p>
         <p class="lede">Whether it\u2019s a birthday table of fifteen, a game night with the guys, or a slow Tuesday with one friend and one bowl \u2014 the room makes space for it.</p>
+        <p class="footnote" id="hookah-bar-note">* The ultimate hookah bar\u2026 because tera pyaar is always hookah bar!</p>
       </div>
     </div>
   </div>
@@ -573,9 +634,9 @@ def build_home():
     <div class="center" style="margin-bottom:3.2rem">
       <p class="eyebrow">From the Kitchen &amp; Bar</p>
       <h2>Eat well. Sip well. Stay late.</h2>
-      <p class="lede">Five things we care about more than we probably should.</p>
+      <p class="lede">Six things we care about more than we probably should.</p>
     </div>
-    <div class="showcase showcase--5">%s
+    <div class="showcase showcase--6">%s
     </div>
     <div class="center btn-row" style="margin-top:3rem">
       <a class="btn" href="menu.html">Explore the full menu</a>
@@ -665,7 +726,6 @@ def build_home():
     <div class="btn-row" style="margin-top:1.8rem">
       <a class="btn btn--solid" href="contact.html">Send us a message</a>
     </div>
-    <p class="footnote" id="hookah-bar-note">* The ultimate hookah bar\u2026 because tera pyaar is always hookah bar!</p>
   </div>
 </section>''' % (
         art.art_slot("lounge", "Inside the Urban Puff lounge", "lounge.jpg"),
@@ -716,7 +776,13 @@ def build_menu():
             ("Chicken Shawarma", "Wrap, or plate with rice &amp; Greek salad. Garlic sauce, pickles.", ""),
             ("Greek Salad", "Feta, olives, cucumber, tomato, red onion. Add chicken.", "Veg"),
         ]),
-        ("Refreshing Mocktails", "glass", "Zero proof, full flavour — shaken to order.", [
+        ("Cocktails", "glass", "Shaken to order and poured late \u2014 the full bar list is below.", [
+            ("Signature Cocktails", "House creations shaken to order \u2014 ask the bar for tonight\u2019s list.", "House"),
+            ("Classic Cocktails", "Mojito, margarita, old fashioned, martini and the rest of the classics, made properly.", ""),
+            ("Shots for the Table", "For birthdays, big wins on the screen, or just because.", "To Share"),
+            ("Hookah &amp; Cocktail Pairings", "Ask the floor which bowl goes with which glass.", ""),
+        ]),
+        ("Refreshing Mocktails", "glass", "Zero proof, full flavor \u2014 shaken to order.", [
             ("Passion Fruit Cooler", "Passion fruit, citrus and soda over crushed ice.", "Signature"),
             ("Virgin Mojito", "Lime, mint and sugar, muddled fresh.", ""),
             ("Mango Lassi", "Thick, cold and lightly sweet.", ""),
@@ -751,6 +817,10 @@ def build_menu():
     ) + flavour_section() + f'''
 <section class="section">
   <div class="wrap">{''.join(blocks)}
+  </div>
+</section>''' + drinks_section() + f'''
+<section class="section">
+  <div class="wrap">
     <div class="center reveal" style="margin-bottom:2.5rem">
       <p class="eyebrow">Late Night \u00b7 After Midnight</p>
       <p class="lede">Wings \u00b7 Fries \u00b7 Samosas \u00b7 Chicken 65</p>
@@ -760,6 +830,30 @@ def build_menu():
     <p class="center lede" style="margin-top:1.5rem">Dietary needs, allergies or a big group order? <a href="contact.html">Message us</a> and we'll sort it out before you arrive.</p>
   </div>
 </section>'''
+
+
+def drinks_section():
+    blocks = "".join(
+        '''
+      <div class="flavour-group reveal">
+        <h4>%s</h4>
+        <ul class="flavour-list">%s</ul>
+      </div>''' % (title, "".join("<li>%s</li>" % d for d in items))
+        for title, items in SITE["drinks"]
+    )
+    return '''
+<section class="section section--tight band" id="drinks">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="center" style="margin-bottom:2.6rem">
+      <p class="eyebrow">The Full Bar</p>
+      <h2>Drinks &amp; soft drinks.</h2>
+      <p class="lede">Whiskey, tequila, vodka, gin, rum, cold beer and seltzer \u2014 poured neat, on the rocks or mixed. 21+ with valid ID.</p>
+    </div>
+    <div class="flavour-grid">%s
+    </div>
+  </div>
+</section>''' % blocks
 
 
 def flavour_section():
@@ -827,7 +921,7 @@ def build_gallery():
         ("The lounge floor", "tile--wide"),
         ("Hookah setup", ""),
         ("Off the grill", ""),
-        ("Mocktail bar", ""),
+        ("The bar", ""),
         ("Game night", "tile--wide"),
         ("Late night", ""),
         ("The booths", ""),
@@ -1166,12 +1260,12 @@ PAGES = [
 
     ("menu.html",
      f"Hookah Flavours &amp; Food Menu | {SITE['name']}, Marietta GA",
-     "The full shisha flavour board and kitchen menu at Urban Puff Lounge, Marietta \u2014 house hookah mixes, mezze and dips, kabobs and tikka, wings, shawarma and mocktails.",
+     "The full shisha flavour board and kitchen menu at Urban Puff Lounge, Marietta \u2014 house hookah mixes, mezze and dips, kabobs and tikka, wings, shawarma, craft cocktails, mocktails and the full bar.",
      build_menu, "Menu"),
 
     ("gallery.html",
      f"Inside Our Hookah Lounge | {SITE['name']}, Marietta GA",
-     "A look inside Urban Puff Lounge &amp; Bar in Marietta, Georgia \u2014 the lounge floor, hookah setups, food off the grill, the mocktail bar and the room after dark.",
+     "A look inside Urban Puff Lounge &amp; Bar in Marietta, Georgia \u2014 the lounge floor, hookah setups, food off the grill, the full bar and the room after dark.",
      build_gallery, "Gallery"),
 
     ("visit.html",
@@ -1288,7 +1382,9 @@ def menu_schema():
     sections = ",".join(
         '{"@type":"MenuSection","name":%s}' % json.dumps(name.replace("&amp;", "&"))
         for name in ["Premium Hookah", "Mezze & Dips", "From the Grill", "Bar Bites",
-                     "Wraps & Plates", "Refreshing Mocktails"]
+                     "Wraps & Plates", "Cocktails", "Refreshing Mocktails",
+                     "Whiskey, Bourbon & Scotch", "Tequila", "Vodka", "Gin", "Rum", "Liqueurs",
+                     "Beer & Seltzer", "Non-Alcoholic Beverages"]
     )
     return '''
 <script type="application/ld+json">
