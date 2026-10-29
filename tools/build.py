@@ -120,6 +120,8 @@ SITE = {
          "Yes \u2014 we\u2019re a full bar, pouring craft cocktails, cold beer and top-shelf spirits, plus fresh mocktails for anyone skipping the alcohol. 21+ with valid ID."),
         ("Can you handle dietary requirements?",
          "Plenty of the kitchen is vegetarian, and we can adapt a lot of the grill. Message us before you come and we'll sort it out properly."),
+        ("Can I work from the lounge during the day?",
+         "Yes. We open at 1:00 PM every day with free Wi-Fi, comfortable seating and food and drinks all afternoon \u2014 bring the laptop and settle in."),
         ("How long can we stay?",
          "As long as you like. Coals get refreshed through the night and nobody is going to hover over your table."),
     ],
@@ -233,6 +235,7 @@ def business_schema():
     {{"@type":"LocationFeatureSpecification","name":"Mocktails","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Late-night food","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Free Wi-Fi","value":true}},
+    {{"@type":"LocationFeatureSpecification","name":"Laptop-friendly / remote work friendly","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Free parking","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Live sports on screen","value":true}},
     {{"@type":"LocationFeatureSpecification","name":"Group and private bookings","value":true}},
@@ -323,7 +326,7 @@ def head(page, title, desc, extra_schema=""):
 <link rel="canonical" href="{canonical}">
 <meta name="theme-color" content="#0b0a09">
 <meta name="author" content="{SITE['full']}">
-<meta name="keywords" content="Urban Puff Lounge &amp; Bar, Urban Puff Lounge and Bar, Urban Puff Marietta, hookah lounge Marietta GA, hookah bar near me, premium hookah lounge Atlanta, shisha Marietta, hookah and food Marietta, cocktail bar Marietta, mocktail bar Marietta, bar Marietta GA, late night bar Marietta, Cobb County hookah lounge">
+<meta name="keywords" content="Urban Puff Lounge &amp; Bar, Urban Puff Lounge and Bar, Urban Puff Marietta, hookah lounge Marietta GA, hookah bar near me, premium hookah lounge Atlanta, shisha Marietta, hookah and food Marietta, cocktail bar Marietta, mocktail bar Marietta, bar Marietta GA, late night bar Marietta, work from lounge Marietta, places to work remotely Marietta GA, free wifi Marietta, laptop friendly Marietta, Cobb County hookah lounge">
 
 <meta name="geo.region" content="US-GA">
 <meta name="geo.placename" content="{SITE['city']}, {SITE['state']}">
@@ -533,7 +536,7 @@ def build_home():
     features = [
         ("hookah", "Premium Hookah", "Top-shelf shisha, clean heat management and a flavour list that runs from classic mint to house-blend mixes. Set up fresh, tended all night."),
         ("seat", "Comfortable Seating", "Deep lounge sofas, low tables and booths made for long sessions with a big group or a quiet two."),
-        ("wifi", "Free Wi-Fi", "Fast, free and open to every guest \u2014 work late, stream, or just keep the group chat going."),
+        ("wifi", "Free Wi-Fi", "Fast, free and open to every guest \u2014 work from the lounge from 1 PM, stream, or just keep the group chat going."),
         ("music", "Great Music", "Afrobeats, hip-hop, R&B and Desi hits \u2014 the playlist moves with the room, and the volume stays talk-friendly."),
         ("tv", "Sports on Screen", "Big screens on the wall for the game \u2014 football, cricket, basketball, the fights. Come early for a good seat."),
         ("chef", "Kitchen Till Late", "Mezze, kabobs, tikka and bar bites \u2014 with wings, fries, samosas and Chicken 65 still coming out after midnight."),
@@ -614,7 +617,7 @@ def build_home():
       </div>
       <div class="reveal">
         <p class="lede">We built Urban Puff around the simple things that make a night worth staying for: a hookah that actually pulls right, a full bar pouring proper craft cocktails, food that comes out hot, and seats you don\u2019t wanna get up from.</p>
-        <p class="lede">Whether it\u2019s a birthday table of fifteen, a game night with the guys, or a slow Tuesday with one friend and one bowl \u2014 the room makes space for it.</p>
+        <p class="lede">Whether it\u2019s a birthday table of fifteen, a remote work day, a game night with the boys, or a slow Tuesday with one friend and a shared shisha moment \u2014 we make space for it.</p>
         <p class="footnote" id="hookah-bar-note">* The ultimate hookah bar\u2026 because tera pyaar is always hookah bar!</p>
       </div>
     </div>
@@ -687,7 +690,7 @@ def build_home():
       <p class="eyebrow">Near You</p>
       <h2>A hookah lounge for the whole of Cobb County.</h2>
       <p class="lede">We\u2019re on Wylie Road SE, just off South Marietta Parkway and a couple of minutes from I-75 \u2014 which makes us an easy run from most of the county. Regulars come from <strong>Marietta</strong> and <strong>Kennesaw</strong>, from <strong>Smyrna</strong> and <strong>Vinings</strong> on the way back into the city, and from <strong>Austell</strong>, <strong>Mableton</strong> and <strong>Powder Springs</strong>. Dobbins Air Reserve Base is up the road, and students from Life University and Kennesaw State tend to fill the back booths midweek.</p>
-      <p class="lede">We open at <strong>1:00 PM</strong> every day \u2014 earlier than most lounges around here \u2014 so the afternoon crowd gets the room before the night crowd arrives. If you\u2019ve been searching for a hookah bar near you that is still serving food at 1 AM \u2014 or 3 AM on Fridays and Saturdays \u2014 this is it.</p>
+      <p class="lede">We open at <strong>1:00 PM</strong> every day \u2014 earlier than most lounges around here \u2014 so the afternoon crowd gets the room before the night crowd arrives. Remote workers, freelancers and students set up with a laptop and the free Wi-Fi in the afternoon. And if you\u2019ve been searching for a hookah bar near you that is still serving food at 1 AM \u2014 or 3 AM on Fridays and Saturdays \u2014 this is it.</p>
       <div class="btn-row center" style="margin-top:1.8rem">
         <a class="btn btn--ghost" href="menu.html">Browse the shisha flavour board</a>
         <a class="btn btn--ghost" href="visit.html">Hours, parking and FAQ</a>
