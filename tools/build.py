@@ -491,7 +491,8 @@ def build_home():
     showcase_items = [
         ("hookah",   "hookah.jpg",   "The Bowl",    "Premium Hookah",      "House mixes and single-origin shisha, packed fresh and coal-managed all night so the last pull is as good as the first."),
         ("grill",    "grill.jpg",    "The Grill",   "Kabobs &amp; Tikka",  "Chicken kabob, hariyali tikka, paneer tikka and weekend lamb chops \u2014 skewered to order and charred hard over open heat."),
-        ("mocktail", "mocktail.jpg", "The Bar",     "Mocktails",           "Zero proof, full flavour. Fresh fruit, real citrus and a proper shake \u2014 built to stand up to the grill."),
+        ("mocktail", "cocktail.jpg", "The Bar",     "Full Bar &amp; Cocktails", "Craft cocktails shaken to order, cold beer and proper pours from a fully stocked bar \u2014 built to go with the bowl, the game and the grill."),
+        ("mocktail", "mocktail.jpg", "Zero Proof",  "Mocktails",           "Zero proof, full flavour. Fresh fruit, real citrus and a proper shake \u2014 built to stand up to the grill."),
         ("lounge",   "latenight.jpg", "After Midnight", "Late-Night Bites", "Wings, fries, samosas and Chicken 65 \u2014 the kitchen keeps going long after most places have closed."),
     ]
     showcase = "".join(
@@ -531,6 +532,8 @@ def build_home():
       </div>
       <div class="hero__meta">
         <span>Premium Hookah</span>
+        <span>Full Bar</span>
+        <span>Cocktails</span>
         <span>Mocktails</span>
         <span>Kitchen &amp; Grill</span>
         <span>Sports on Screen</span>
@@ -547,11 +550,10 @@ def build_home():
   <div class="wrap">
     <div class="split">
       <div class="reveal">
-        <p class="eyebrow">The Lounge</p>
-        <h2>Good vibes, on purpose.</h2>
+        <h2>The Ultimate Hookah Bar<a href="#hookah-bar-note" class="footnote-mark" aria-label="See footnote">*</a> and Late-Night Lounge in Cobb County</h2>
       </div>
       <div class="reveal">
-        <p class="lede">We built Urban Puff around the simple things that make a night worth staying out for: a hookah that actually pulls right, food that comes out hot, a drink that doesn\u2019t need alcohol to be interesting, and seats you don\u2019t want to get up from.</p>
+        <p class="lede">We built Urban Puff around the simple things that make a night worth staying for: a hookah that actually pulls right, a full bar pouring proper craft cocktails, food that comes out hot, and seats you don\u2019t wanna get up from.</p>
         <p class="lede">Whether it\u2019s a birthday table of fifteen, a game night with the guys, or a slow Tuesday with one friend and one bowl \u2014 the room makes space for it.</p>
       </div>
     </div>
@@ -571,9 +573,9 @@ def build_home():
     <div class="center" style="margin-bottom:3.2rem">
       <p class="eyebrow">From the Kitchen &amp; Bar</p>
       <h2>Eat well. Sip well. Stay late.</h2>
-      <p class="lede">Four things we care about more than we probably should.</p>
+      <p class="lede">Five things we care about more than we probably should.</p>
     </div>
-    <div class="showcase">%s
+    <div class="showcase showcase--5">%s
     </div>
     <div class="center btn-row" style="margin-top:3rem">
       <a class="btn" href="menu.html">Explore the full menu</a>
@@ -663,6 +665,7 @@ def build_home():
     <div class="btn-row" style="margin-top:1.8rem">
       <a class="btn btn--solid" href="contact.html">Send us a message</a>
     </div>
+    <p class="footnote" id="hookah-bar-note">* The ultimate hookah bar\u2026 because tera pyaar is always hookah bar!</p>
   </div>
 </section>''' % (
         art.art_slot("lounge", "Inside the Urban Puff lounge", "lounge.jpg"),
